@@ -4,22 +4,36 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Search } from "lucide-react";
-import { navItems } from "@/lib/data";
+import { SOURCES } from "@/lib/data";
+import ThemeToggle from "@/components/common/ThemeToggle";
+import LanguageToggle from "@/components/common/LanguageToggle";
+import { useLocale } from "@/lib/i18n/LocaleProvider";
 
 export default function Navbar() {
+  const { t } = useLocale();
+  const navItems = [
+    { key: "home", href: "/" },
+    { key: "about", href: "/about" },
+    { key: "events", href: "/events" },
+    { key: "team", href: "/team" },
+    { key: "announcements", href: "/announcements" },
+    { key: "contact", href: "/contact" },
+  ] as const;
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
+  const [prevPathname, setPrevPathname] = useState(pathname);
+
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname);
+    setMobileOpen(false);
+  }
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handler, { passive: true });
     return () => window.removeEventListener("scroll", handler);
   }, []);
-
-  useEffect(() => {
-    setMobileOpen(false);
-  }, [pathname]);
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
@@ -40,7 +54,7 @@ export default function Navbar() {
           backdropFilter: "blur(20px)",
           WebkitBackdropFilter: "blur(20px)",
           borderBottom: scrolled
-            ? "1px solid rgba(255,255,255,0.08)"
+            ? "1px solid var(--border-2)"
             : "1px solid transparent",
           boxShadow: scrolled ? "0 8px 32px rgba(0,0,0,0.3)" : "none",
         }}
@@ -63,15 +77,15 @@ export default function Navbar() {
                   WebkitTextFillColor: "transparent",
                 }}
               >
-                SBK
+                SBT
               </span>
             </div>
             <div className="hidden sm:block">
-              <p className="text-[10px] font-medium tracking-[0.2em] uppercase" style={{ color: "rgb(138,155,184)" }}>
+              <p className="text-[10px] font-medium tracking-[0.2em] uppercase" style={{ color: "var(--color-text-muted)" }}>
                 İMÜ
               </p>
-              <p className="text-sm font-semibold leading-tight" style={{ color: "rgb(248,250,252)" }}>
-                Siyaset & Bürokrasi
+              <p className="text-sm font-semibold leading-tight" style={{ color: "var(--color-text-primary)" }}>
+                Siyaset & Bürokrasi Topluluğu
               </p>
             </div>
           </Link>
@@ -86,18 +100,18 @@ export default function Navbar() {
                     href={item.href}
                     className="relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 animated-underline"
                     style={{
-                      color: active ? "rgb(248,250,252)" : "rgb(138,155,184)",
+                      color: active ? "var(--color-text-primary)" : "var(--color-text-muted)",
                     }}
                   >
                     {active && (
                       <motion.span
                         layoutId="nav-active"
                         className="absolute inset-0 rounded-lg"
-                        style={{ background: "rgba(255,255,255,0.06)" }}
+                        style={{ background: "var(--surface-5)" }}
                         transition={{ type: "spring", stiffness: 400, damping: 30 }}
                       />
                     )}
-                    <span className="relative z-10">{item.label}</span>
+                    <span className="relative z-10">{t.nav[item.key]}</span>
                   </Link>
                 </li>
               );
@@ -106,26 +120,39 @@ export default function Navbar() {
 
           {/* Right actions */}
           <div className="flex items-center gap-3">
+            <LanguageToggle />
+            <ThemeToggle />
+
             <button
-              onClick={() => {
-                const event = new KeyboardEvent("keydown", { key: "k", ctrlKey: true, bubbles: true });
-                window.dispatchEvent(event);
-              }}
+              onClick={() => window.dispatchEvent(new Event("open-command-menu"))}
               className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs transition-all duration-200 hover:bg-white/5"
               style={{
-                color: "rgb(138,155,184)",
-                border: "1px solid rgba(255,255,255,0.08)",
+                color: "var(--color-text-muted)",
+                border: "1px solid var(--border-2)",
               }}
-              aria-label="Ara"
+              aria-label={t.nav.search}
             >
               <Search size={13} />
-              <span>Ara</span>
+              <span>{t.nav.search}</span>
               <kbd
                 className="px-1.5 py-0.5 rounded text-[10px]"
-                style={{ background: "rgba(255,255,255,0.08)" }}
+                style={{ background: "var(--border-2)" }}
               >
                 ⌘K
               </kbd>
+            </button>
+
+            {/* Mobile search trigger */}
+            <button
+              onClick={() => window.dispatchEvent(new Event("open-command-menu"))}
+              className="lg:hidden w-9 h-9 rounded-lg flex items-center justify-center transition-all"
+              style={{
+                background: "var(--surface-5)",
+                color: "var(--color-text-primary)",
+              }}
+              aria-label={t.nav.search}
+            >
+              <Search size={16} />
             </button>
 
             <Link
@@ -137,7 +164,7 @@ export default function Navbar() {
                 boxShadow: "0 4px 16px rgba(26,86,219,0.3)",
               }}
             >
-              Etkinlikleri İncele
+              {t.nav.exploreEvents}
             </Link>
 
             {/* Mobile menu toggle */}
@@ -145,10 +172,10 @@ export default function Navbar() {
               onClick={() => setMobileOpen((v) => !v)}
               className="lg:hidden w-9 h-9 rounded-lg flex items-center justify-center transition-all"
               style={{
-                background: "rgba(255,255,255,0.06)",
-                color: "rgb(248,250,252)",
+                background: "var(--surface-5)",
+                color: "var(--color-text-primary)",
               }}
-              aria-label="Menü"
+              aria-label={mobileOpen ? t.search.close : "Menu"}
             >
               {mobileOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
@@ -180,12 +207,12 @@ export default function Navbar() {
                       href={item.href}
                       className="flex items-center justify-between px-4 py-4 rounded-2xl text-lg font-medium transition-all"
                       style={{
-                        color: pathname === item.href ? "rgb(248,250,252)" : "rgb(138,155,184)",
-                        background: pathname === item.href ? "rgba(255,255,255,0.06)" : "transparent",
-                        border: "1px solid rgba(255,255,255,0.06)",
+                        color: pathname === item.href ? "var(--color-text-primary)" : "var(--color-text-muted)",
+                        background: pathname === item.href ? "var(--surface-5)" : "transparent",
+                        border: "1px solid var(--surface-5)",
                       }}
                     >
-                      {item.label}
+                      {t.nav[item.key]}
                     </Link>
                   </motion.li>
                 ))}
@@ -209,22 +236,24 @@ export default function Navbar() {
                   Etkinlikleri İncele
                 </Link>
                 <Link
-                  href="/contact"
+                  href={SOURCES.whatsapp}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex items-center justify-center w-full py-4 rounded-2xl text-base font-semibold mt-3"
                   style={{
                     border: "1px solid rgba(201,168,76,0.3)",
                     color: "#c9a84c",
                   }}
                 >
-                  Kulübe Katıl
+                  {t.nav.joinUs}
                 </Link>
               </motion.div>
             </div>
 
             {/* Social links */}
-            <div className="px-6 pb-8 pt-4 border-t" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
-              <p className="text-xs text-center mb-4" style={{ color: "rgb(138,155,184)" }}>
-                Bizi takip edin
+            <div className="px-6 pb-8 pt-4 border-t" style={{ borderColor: "var(--surface-5)" }}>
+              <p className="text-xs text-center mb-4" style={{ color: "var(--color-text-muted)" }}>
+                {t.nav.followUs}
               </p>
               <div className="flex justify-center gap-4">
                 <a
@@ -232,7 +261,7 @@ export default function Navbar() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-4 py-2 rounded-lg text-sm font-medium transition-all"
-                  style={{ background: "rgba(255,255,255,0.06)", color: "rgb(248,250,252)" }}
+                  style={{ background: "var(--surface-5)", color: "var(--color-text-primary)" }}
                 >
                   Instagram
                 </a>

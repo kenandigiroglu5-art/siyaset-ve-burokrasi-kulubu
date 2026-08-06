@@ -15,7 +15,7 @@ export default function ScrollProgress() {
   }, []);
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-[9998] h-[2px]" style={{ background: "rgba(255,255,255,0.05)" }}>
+    <div className="fixed top-0 left-0 right-0 z-[9998] h-[2px]" style={{ background: "var(--surface-4)" }}>
       <div
         className="h-full transition-none"
         style={{

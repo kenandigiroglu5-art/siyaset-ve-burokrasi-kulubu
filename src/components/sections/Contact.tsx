@@ -1,12 +1,15 @@
 "use client";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, MapPin, Send, CheckCircle } from "lucide-react";
-import { Instagram } from "@/components/common/SocialIcons";
+import { MapPin, Send, CheckCircle, MessageCircle } from "lucide-react";
+import { Instagram, Linkedin } from "@/components/common/SocialIcons";
 import SectionHeader from "@/components/common/SectionHeader";
-import { fadeInUp, fadeInLeft, fadeInRight, viewportConfig } from "@/lib/animations";
+import { fadeInLeft, fadeInRight, viewportConfig } from "@/lib/animations";
+import { SOURCES } from "@/lib/data";
+import { useLocale } from "@/lib/i18n/LocaleProvider";
 
 export default function Contact() {
+  const { t } = useLocale();
   const [sent, setSent] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
 
@@ -16,14 +19,14 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="section-padding relative overflow-hidden" style={{ background: "linear-gradient(180deg, #06101f 0%, #08152e 100%)" }}>
+    <section id="contact" className="section-padding relative overflow-hidden" style={{ background: "linear-gradient(180deg, var(--color-bg-deep) 0%, var(--color-bg-base) 100%)" }}>
       <div className="absolute top-1/3 right-0 w-80 h-80 pointer-events-none" style={{ background: "radial-gradient(circle, rgba(201,168,76,0.06), transparent)", filter: "blur(50px)" }} />
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 relative">
         <SectionHeader
-          eyebrow="İletişim"
-          title="Bizimle İletişime Geçin"
-          subtitle="Sorularınız için buradayız. Kulübe katılmak, etkinlikler veya işbirliği için mesaj gönderin."
+          eyebrow={t.contact.eyebrow}
+          title={t.contact.title}
+          subtitle={t.contact.subtitle}
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-10">
@@ -37,28 +40,36 @@ export default function Contact() {
           >
             {[
               {
-                icon: Mail,
-                label: "E-posta",
-                value: "siyasetburokrasi@imu.edu.tr",
-                href: "mailto:siyasetburokrasi@imu.edu.tr",
-                color: "#60a5fa",
-                bg: "rgba(96,165,250,0.12)",
-              },
-              {
-                icon: MapPin,
-                label: "Adres",
-                value: "İMÜ Kadıköy Kampüsü, İstanbul",
-                href: "https://maps.google.com",
-                color: "#c9a84c",
-                bg: "rgba(201,168,76,0.12)",
+                icon: MessageCircle,
+                label: "WhatsApp",
+                value: "Topluluğa Katıl",
+                href: SOURCES.whatsapp,
+                color: "#4ade80",
+                bg: "rgba(74,222,128,0.12)",
               },
               {
                 icon: Instagram,
                 label: "Instagram",
                 value: "@siyasetveburokrasi_imu",
-                href: "https://www.instagram.com/siyasetveburokrasi_imu/",
+                href: SOURCES.instagram,
                 color: "#f472b6",
                 bg: "rgba(244,114,182,0.12)",
+              },
+              {
+                icon: Linkedin,
+                label: "LinkedIn",
+                value: "Siyaset Ve Burokrasi Topluluğu",
+                href: SOURCES.linkedin,
+                color: "#60a5fa",
+                bg: "rgba(96,165,250,0.12)",
+              },
+              {
+                icon: MapPin,
+                label: "Üniversite",
+                value: "İstanbul Medeniyet Üniversitesi, Kuzey Kampüs",
+                href: "https://maps.google.com/?q=Istanbul+Medeniyet+University+Kuzey+Kampus",
+                color: "#c9a84c",
+                bg: "rgba(201,168,76,0.12)",
               },
             ].map((info) => (
               <a
@@ -67,20 +78,20 @@ export default function Contact() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-start gap-4 p-5 rounded-2xl transition-all duration-300 glass-hover"
-                style={{ border: "1px solid rgba(255,255,255,0.07)" }}
+                style={{ border: "1px solid var(--border-1)" }}
               >
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: info.bg }}>
                   <info.icon size={18} style={{ color: info.color }} />
                 </div>
                 <div>
-                  <p className="text-xs font-medium mb-1" style={{ color: "rgb(138,155,184)" }}>{info.label}</p>
-                  <p className="text-sm font-semibold" style={{ color: "rgb(248,250,252)" }}>{info.value}</p>
+                  <p className="text-xs font-medium mb-1" style={{ color: "var(--color-text-muted)" }}>{info.label}</p>
+                  <p className="text-sm font-semibold" style={{ color: "var(--color-text-primary)" }}>{info.value}</p>
                 </div>
               </a>
             ))}
 
             {/* Map embed */}
-            <div className="rounded-2xl overflow-hidden flex-1 min-h-48" style={{ border: "1px solid rgba(255,255,255,0.07)" }}>
+            <div className="rounded-2xl overflow-hidden flex-1 min-h-48" style={{ border: "1px solid var(--border-1)" }}>
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3011.3745168892!2d29.023!3d40.99!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cab9f6f4e4d8e7%3A0x6f0e7e6e6f0e7e6e!2sIstanbul%20Medeniyet%20University!5e0!3m2!1str!2str!4v1700000000000!5m2!1str!2str"
                 width="100%"
@@ -101,7 +112,7 @@ export default function Contact() {
             viewport={viewportConfig}
             className="lg:col-span-3"
           >
-            <div className="rounded-3xl p-8 h-full" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)" }}>
+            <div className="rounded-3xl p-8 h-full" style={{ background: "var(--surface-2)", border: "1px solid var(--border-1)" }}>
               {sent ? (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
@@ -111,64 +122,68 @@ export default function Contact() {
                   <div className="w-16 h-16 rounded-full flex items-center justify-center" style={{ background: "rgba(34,197,94,0.15)" }}>
                     <CheckCircle size={28} style={{ color: "#22c55e" }} />
                   </div>
-                  <h3 className="text-xl font-bold" style={{ color: "rgb(248,250,252)" }}>Mesajınız İletildi!</h3>
-                  <p className="text-sm" style={{ color: "rgb(138,155,184)" }}>En kısa sürede size geri döneceğiz.</p>
-                  <button onClick={() => setSent(false)} className="mt-4 px-6 py-2.5 rounded-xl text-sm font-medium" style={{ background: "rgba(255,255,255,0.06)", color: "rgb(248,250,252)" }}>
-                    Yeni Mesaj
+                  <h3 className="text-xl font-bold" style={{ color: "var(--color-text-primary)" }}>{t.contact.sentTitle}</h3>
+                  <p className="text-sm" style={{ color: "var(--color-text-muted)" }}>{t.contact.sentBody}</p>
+                  <button onClick={() => setSent(false)} className="mt-4 px-6 py-2.5 rounded-xl text-sm font-medium" style={{ background: "var(--surface-5)", color: "var(--color-text-primary)" }}>
+                    {t.contact.newMessage}
                   </button>
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-                  <h3 className="text-xl font-bold mb-2" style={{ color: "rgb(248,250,252)" }}>Mesaj Gönderin</h3>
+                  <h3 className="text-xl font-bold mb-2" style={{ color: "var(--color-text-primary)" }}>{t.contact.formTitle}</h3>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                      <label className="block text-xs font-medium mb-2" style={{ color: "rgb(138,155,184)" }}>Adınız</label>
+                      <label htmlFor="contact-name" className="block text-xs font-medium mb-2" style={{ color: "var(--color-text-muted)" }}>{t.contact.name}</label>
                       <input
+                        id="contact-name"
                         required
                         value={form.name}
                         onChange={(e) => setForm({ ...form, name: e.target.value })}
-                        placeholder="Adınız Soyadınız"
+                        placeholder={t.contact.namePlaceholder}
                         className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all"
-                        style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)", color: "rgb(248,250,252)", caretColor: "#c9a84c" }}
+                        style={{ background: "var(--surface-4)", border: "1px solid var(--border-2)", color: "var(--color-text-primary)", caretColor: "#c9a84c" }}
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-medium mb-2" style={{ color: "rgb(138,155,184)" }}>E-posta</label>
+                      <label htmlFor="contact-email" className="block text-xs font-medium mb-2" style={{ color: "var(--color-text-muted)" }}>{t.contact.email}</label>
                       <input
+                        id="contact-email"
                         required
                         type="email"
                         value={form.email}
                         onChange={(e) => setForm({ ...form, email: e.target.value })}
-                        placeholder="ornek@imu.edu.tr"
+                        placeholder={t.contact.emailPlaceholder}
                         className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all"
-                        style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)", color: "rgb(248,250,252)", caretColor: "#c9a84c" }}
+                        style={{ background: "var(--surface-4)", border: "1px solid var(--border-2)", color: "var(--color-text-primary)", caretColor: "#c9a84c" }}
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-medium mb-2" style={{ color: "rgb(138,155,184)" }}>Konu</label>
+                    <label htmlFor="contact-subject" className="block text-xs font-medium mb-2" style={{ color: "var(--color-text-muted)" }}>{t.contact.subject}</label>
                     <input
+                      id="contact-subject"
                       required
                       value={form.subject}
                       onChange={(e) => setForm({ ...form, subject: e.target.value })}
-                      placeholder="Mesajınızın konusu"
+                      placeholder={t.contact.subjectPlaceholder}
                       className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all"
-                      style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)", color: "rgb(248,250,252)", caretColor: "#c9a84c" }}
+                      style={{ background: "var(--surface-4)", border: "1px solid var(--border-2)", color: "var(--color-text-primary)", caretColor: "#c9a84c" }}
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-medium mb-2" style={{ color: "rgb(138,155,184)" }}>Mesajınız</label>
+                    <label htmlFor="contact-message" className="block text-xs font-medium mb-2" style={{ color: "var(--color-text-muted)" }}>{t.contact.message}</label>
                     <textarea
+                      id="contact-message"
                       required
                       rows={6}
                       value={form.message}
                       onChange={(e) => setForm({ ...form, message: e.target.value })}
-                      placeholder="Mesajınızı buraya yazın..."
+                      placeholder={t.contact.messagePlaceholder}
                       className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all resize-none"
-                      style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)", color: "rgb(248,250,252)", caretColor: "#c9a84c" }}
+                      style={{ background: "var(--surface-4)", border: "1px solid var(--border-2)", color: "var(--color-text-primary)", caretColor: "#c9a84c" }}
                     />
                   </div>
 
@@ -178,7 +193,7 @@ export default function Contact() {
                     style={{ background: "linear-gradient(135deg, #1a56db, #0a3d9e)", color: "white", boxShadow: "0 8px 24px rgba(26,86,219,0.35)" }}
                   >
                     <Send size={15} />
-                    Mesajı Gönder
+                    {t.contact.send}
                   </button>
                 </form>
               )}

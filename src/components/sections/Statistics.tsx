@@ -5,6 +5,7 @@ import AnimatedCounter from "@/components/common/AnimatedCounter";
 import SectionHeader from "@/components/common/SectionHeader";
 import { statistics } from "@/lib/data";
 import { staggerContainer, scaleIn, viewportConfig } from "@/lib/animations";
+import { useLocale } from "@/lib/i18n/LocaleProvider";
 
 const iconMap: Record<string, React.ElementType> = {
   Calendar,
@@ -15,17 +16,18 @@ const iconMap: Record<string, React.ElementType> = {
 };
 
 export default function Statistics() {
+  const { t } = useLocale();
   return (
-    <section id="statistics" className="section-padding relative overflow-hidden" style={{ background: "#06101f" }}>
+    <section id="statistics" className="section-padding relative overflow-hidden" style={{ background: "var(--color-bg-deep)" }}>
       {/* Decorative */}
       <div className="absolute inset-0 bg-grid opacity-30 pointer-events-none" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] pointer-events-none" style={{ background: "radial-gradient(ellipse, rgba(26,86,219,0.06) 0%, transparent 70%)", filter: "blur(40px)" }} />
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 relative">
         <SectionHeader
-          eyebrow="Rakamlarla Biz"
-          title="5 Yılda Büyük Adımlar"
-          subtitle="Her rakam, öğrencilerimize sunduğumuz değeri ve kulübümüzün büyüyen etkisini yansıtıyor."
+          eyebrow={t.statistics.eyebrow}
+          title={t.statistics.title}
+          subtitle={t.statistics.subtitle}
         />
 
         <motion.div
@@ -42,7 +44,7 @@ export default function Statistics() {
                 key={stat.id}
                 variants={scaleIn}
                 className="rounded-3xl p-6 text-center card-shine glass-hover relative overflow-hidden group"
-                style={{ border: "1px solid rgba(255,255,255,0.07)" }}
+                style={{ border: "1px solid var(--border-1)" }}
               >
                 {/* Hover glow */}
                 <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style={{ background: i % 2 === 0 ? "radial-gradient(circle at 50% 50%, rgba(26,86,219,0.08), transparent)" : "radial-gradient(circle at 50% 50%, rgba(201,168,76,0.06), transparent)" }} />
@@ -52,9 +54,13 @@ export default function Statistics() {
                 </div>
 
                 <div className="text-3xl md:text-4xl font-bold mb-1" style={{ background: "linear-gradient(135deg, #c9a84c, #f0d483)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-                  <AnimatedCounter target={stat.value} suffix={stat.suffix} />
+                  {typeof stat.value === "number" ? (
+                    <AnimatedCounter target={stat.value} suffix={stat.suffix} />
+                  ) : (
+                    <span className="text-lg md:text-xl">{t.statistics.updating}</span>
+                  )}
                 </div>
-                <p className="text-xs font-medium" style={{ color: "rgb(138,155,184)" }}>{stat.label}</p>
+                <p className="text-xs font-medium" style={{ color: "var(--color-text-muted)" }}>{t.statistics.labels[i] ?? stat.label}</p>
               </motion.div>
             );
           })}

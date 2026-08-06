@@ -1,17 +1,34 @@
 "use client";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ChevronDown, ArrowRight } from "lucide-react";
-import ParticleCanvas from "@/components/common/ParticleCanvas";
-import WorldMap from "@/components/common/WorldMap";
-import { fadeInUp, staggerContainer } from "@/lib/animations";
+import dynamic from "next/dynamic";
+import { ArrowRight, MessageCircle } from "lucide-react";
+import { Instagram as InstagramIcon, Linkedin as LinkedinIcon } from "@/components/common/SocialIcons";
+import { heroItem, heroStagger } from "@/lib/animations";
+
+// Decorative, non-critical background layers: loaded in a separate chunk so
+// their JS doesn't compete with the critical hero text during initial
+// hydration. Same visual result — they just mount a beat after first paint.
+const ParticleCanvas = dynamic(() => import("@/components/common/ParticleCanvas"), { ssr: false });
+const WorldMap = dynamic(() => import("@/components/common/WorldMap"), { ssr: false });
+import { pastEvents, SOURCES } from "@/lib/data";
+import { useLocale } from "@/lib/i18n/LocaleProvider";
+
+const latestEvent = pastEvents[pastEvents.length - 1];
+
+const quickLinks = [
+  { icon: InstagramIcon, label: "Instagram", href: SOURCES.instagram },
+  { icon: LinkedinIcon, label: "LinkedIn", href: SOURCES.linkedin },
+  { icon: MessageCircle, label: "WhatsApp", href: SOURCES.whatsapp },
+];
 
 export default function Hero() {
+  const { t } = useLocale();
   return (
     <section
       id="hero"
       className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
-      style={{ background: "linear-gradient(135deg, #08152e 0%, #0d1f3c 50%, #06101f 100%)" }}
+      style={{ background: "linear-gradient(135deg, var(--color-bg-base) 0%, var(--color-bg-elevated) 50%, var(--color-bg-deep) 100%)" }}
     >
       {/* Background layers */}
       <WorldMap />
@@ -45,13 +62,13 @@ export default function Hero() {
 
       {/* Main content */}
       <motion.div
-        variants={staggerContainer}
+        variants={heroStagger}
         initial="hidden"
         animate="visible"
         className="relative z-10 text-center max-w-5xl mx-auto px-6"
       >
         {/* Badge */}
-        <motion.div variants={fadeInUp} className="flex justify-center mb-8">
+        <motion.div variants={heroItem} className="flex flex-wrap items-center justify-center gap-3 mb-8">
           <div
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold tracking-[0.2em] uppercase"
             style={{
@@ -64,29 +81,39 @@ export default function Hero() {
               className="w-1.5 h-1.5 rounded-full animate-pulse"
               style={{ background: "#c9a84c" }}
             />
-            İstanbul Medeniyet Üniversitesi
+            {t.hero.badgeUniversity}
+          </div>
+          <div
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold tracking-[0.15em] uppercase"
+            style={{
+              background: "rgba(26,86,219,0.12)",
+              border: "1px solid rgba(96,165,250,0.25)",
+              color: "#93c5fd",
+            }}
+          >
+            {t.hero.badgeTerm}
           </div>
         </motion.div>
 
         {/* Main title */}
-        <motion.div variants={fadeInUp} className="mb-6">
+        <motion.div variants={heroItem} className="mb-6">
           <h1 className="font-bold leading-[1.05] tracking-tight">
             <span
               className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl mb-3"
-              style={{ color: "rgb(248,250,252)" }}
+              style={{ color: "var(--color-text-primary)" }}
             >
-              Siyaset ve
+              {t.hero.titleLine1}
             </span>
             <span
               className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-gold-gradient"
             >
-              Bürokrasi Kulübü
+              {t.hero.titleLine2}
             </span>
           </h1>
         </motion.div>
 
         {/* Divider */}
-        <motion.div variants={fadeInUp} className="flex justify-center mb-8">
+        <motion.div variants={heroItem} className="flex justify-center mb-8">
           <div
             className="h-px w-32"
             style={{
@@ -97,18 +124,24 @@ export default function Hero() {
 
         {/* Subtitle */}
         <motion.p
-          variants={fadeInUp}
-          className="text-base sm:text-lg md:text-xl leading-relaxed mb-12 max-w-2xl mx-auto"
-          style={{ color: "rgb(138,155,184)" }}
+          variants={heroItem}
+          className="text-base sm:text-lg md:text-xl leading-relaxed mb-4 max-w-2xl mx-auto"
+          style={{ color: "var(--color-text-muted)" }}
         >
-          Geleceğin diplomatlarını, siyasetçilerini ve kamu yöneticilerini
-          yetiştiren öğrenci topluluğu.
+          {t.hero.subtitle}
+        </motion.p>
+        <motion.p
+          variants={heroItem}
+          className="text-sm sm:text-base leading-relaxed mb-12 max-w-xl mx-auto"
+          style={{ color: "var(--color-text-faint)" }}
+        >
+          {t.hero.description}
         </motion.p>
 
         {/* CTA Buttons */}
         <motion.div
-          variants={fadeInUp}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
+          variants={heroItem}
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8"
         >
           <Link
             href="/events"
@@ -119,7 +152,7 @@ export default function Hero() {
               boxShadow: "0 8px 32px rgba(26,86,219,0.4)",
             }}
           >
-            <span>Etkinlikleri İncele</span>
+            <span>{t.hero.exploreEvents}</span>
             <ArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-1" />
             {/* Ripple */}
             <span
@@ -129,47 +162,58 @@ export default function Hero() {
           </Link>
 
           <Link
-            href="/contact"
+            href={SOURCES.whatsapp}
+            target="_blank"
+            rel="noopener noreferrer"
             className="group relative overflow-hidden inline-flex items-center gap-2 px-7 py-3.5 rounded-2xl text-sm font-semibold transition-all duration-300 hover:scale-105"
             style={{
-              background: "rgba(255,255,255,0.04)",
+              background: "var(--surface-3)",
               border: "1px solid rgba(201,168,76,0.4)",
               color: "#c9a84c",
               backdropFilter: "blur(10px)",
             }}
           >
-            <span>Kulübe Katıl</span>
+            <span>{t.hero.joinUs}</span>
             <ArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
         </motion.div>
 
-        {/* Stats row */}
-        <motion.div
-          variants={fadeInUp}
-          className="flex flex-wrap items-center justify-center gap-8 md:gap-12"
-        >
-          {[
-            { value: "850+", label: "Üye" },
-            { value: "120+", label: "Etkinlik" },
-            { value: "5", label: "Yıl" },
-          ].map((stat) => (
-            <div key={stat.label} className="text-center">
-              <p
-                className="text-2xl md:text-3xl font-bold"
-                style={{
-                  background: "linear-gradient(135deg, #c9a84c, #f0d483)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                }}
-              >
-                {stat.value}
-              </p>
-              <p className="text-xs font-medium tracking-wider uppercase mt-1" style={{ color: "rgb(138,155,184)" }}>
-                {stat.label}
-              </p>
-            </div>
+        {/* Quick social links */}
+        <motion.div variants={heroItem} className="flex items-center justify-center gap-3 mb-10">
+          {quickLinks.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={link.label}
+              className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110"
+              style={{ background: "var(--surface-4)", border: "1px solid var(--border-2)", color: "var(--color-text-body)" }}
+            >
+              <link.icon size={16} />
+            </a>
           ))}
         </motion.div>
+
+        {/* Latest activity ticker */}
+        {latestEvent && (
+          <motion.div variants={heroItem} className="flex justify-center">
+            <Link
+              href={`/events/${latestEvent.slug}`}
+              className="inline-flex items-center gap-3 px-4 py-2 rounded-full text-xs transition-all duration-300 hover:scale-[1.02]"
+              style={{ background: "var(--surface-2)", border: "1px solid var(--border-2)", color: "var(--color-text-muted)" }}
+            >
+              <span
+                className="px-2 py-0.5 rounded-full font-semibold uppercase tracking-wider"
+                style={{ background: "rgba(201,168,76,0.15)", color: "#c9a84c", fontSize: "10px" }}
+              >
+                {t.hero.latestActivity}
+              </span>
+              <span className="max-w-[220px] sm:max-w-none truncate">{latestEvent.title}</span>
+              <ArrowRight size={12} />
+            </Link>
+          </motion.div>
+        )}
       </motion.div>
 
       {/* Scroll indicator */}
@@ -179,12 +223,12 @@ export default function Hero() {
         transition={{ delay: 1.5 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
       >
-        <span className="text-[10px] font-medium tracking-[0.25em] uppercase" style={{ color: "rgb(138,155,184)" }}>
-          Kaydır
+        <span className="text-[10px] font-medium tracking-[0.25em] uppercase" style={{ color: "var(--color-text-muted)" }}>
+          {t.hero.scroll}
         </span>
         <div
           className="w-5 h-8 rounded-full flex items-start justify-center pt-1.5"
-          style={{ border: "1.5px solid rgba(255,255,255,0.15)" }}
+          style={{ border: "1.5px solid var(--border-4)" }}
         >
           <motion.div
             animate={{ y: [0, 10, 0] }}

@@ -1,6 +1,12 @@
 "use client";
 import { motion } from "framer-motion";
 
+// Deterministic pseudo-random in [0, 1) so server and client render identical values (avoids hydration mismatch).
+const seededRandom = (seed: number) => {
+  const x = Math.sin(seed) * 10000;
+  return x - Math.floor(x);
+};
+
 const glowingCities = [
   { cx: "23%", cy: "38%", label: "Washington" },
   { cx: "28%", cy: "34%", label: "New York" },
@@ -53,38 +59,45 @@ export default function WorldMap() {
       </svg>
 
       {/* Glowing city dots */}
-      {glowingCities.map((city, i) => (
-        <motion.div
-          key={city.label}
-          className="absolute"
-          style={{ left: city.cx, top: city.cy }}
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: i * 0.1 + 0.5, duration: 0.4 }}
-        >
+      {glowingCities.map((city, i) => {
+        // Rounded to 2 decimals: the browser re-serializes long float CSS values with less
+        // precision than we compute, which otherwise makes the hydration check see a mismatch.
+        const pulseDuration = Number((2 + seededRandom(i) * 2).toFixed(2));
+        const pulseDelay = Number((seededRandom(i + 100) * 2).toFixed(2));
+        const pingDuration = (2 + seededRandom(i + 200) * 2).toFixed(2);
+        return (
           <motion.div
-            className="relative"
-            animate={{ opacity: [0.6, 1, 0.6] }}
-            transition={{ duration: 2 + Math.random() * 2, repeat: Infinity, delay: Math.random() * 2 }}
+            key={city.label}
+            className="absolute"
+            style={{ left: city.cx, top: city.cy }}
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: i * 0.1 + 0.5, duration: 0.4 }}
           >
-            <div
-              className="w-1.5 h-1.5 rounded-full"
-              style={{ background: city.label === "Istanbul" || city.label === "Ankara" ? "#c9a84c" : "#1a56db" }}
-            />
-            <div
-              className="absolute inset-0 rounded-full animate-ping"
-              style={{
-                background: city.label === "Istanbul" || city.label === "Ankara" ? "rgba(201,168,76,0.4)" : "rgba(26,86,219,0.4)",
-                width: "200%",
-                height: "200%",
-                top: "-50%",
-                left: "-50%",
-                animationDuration: `${2 + Math.random() * 2}s`,
-              }}
-            />
+            <motion.div
+              className="relative"
+              animate={{ opacity: [0.6, 1, 0.6] }}
+              transition={{ duration: pulseDuration, repeat: Infinity, delay: pulseDelay }}
+            >
+              <div
+                className="w-1.5 h-1.5 rounded-full"
+                style={{ backgroundColor: city.label === "Istanbul" || city.label === "Ankara" ? "#c9a84c" : "#1a56db" }}
+              />
+              <div
+                className="absolute inset-0 rounded-full animate-ping"
+                style={{
+                  backgroundColor: city.label === "Istanbul" || city.label === "Ankara" ? "rgba(201,168,76,0.4)" : "rgba(26,86,219,0.4)",
+                  width: "200%",
+                  height: "200%",
+                  top: "-50%",
+                  left: "-50%",
+                  animationDuration: `${pingDuration}s`,
+                }}
+              />
+            </motion.div>
           </motion.div>
-        </motion.div>
-      ))}
+        );
+      })}
 
       {/* Connection lines from Istanbul */}
       <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ opacity: 0.15 }}>

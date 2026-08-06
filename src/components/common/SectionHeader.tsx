@@ -38,14 +38,14 @@ export default function SectionHeader({
         className={`text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-4 ${
           goldTitle ? "text-gold-gradient" : ""
         }`}
-        style={goldTitle ? {} : { color: "rgb(248,250,252)" }}
+        style={goldTitle ? {} : { color: "var(--color-text-primary)" }}
       >
         {title}
       </h2>
       {subtitle && (
         <p
           className="text-base md:text-lg max-w-2xl mx-auto leading-relaxed"
-          style={{ color: "rgb(138,155,184)" }}
+          style={{ color: "var(--color-text-muted)" }}
         >
           {subtitle}
         </p>

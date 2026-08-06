@@ -86,3 +86,26 @@ export const viewportConfig = {
   once: true,
   margin: "-80px",
 };
+
+// Hero-only variants: opacity stays at 1 (only a Y-slide animates) so the
+// above-the-fold LCP text is painted immediately instead of waiting for an
+// opacity transition to settle — entrance animations elsewhere are
+// scroll-triggered (whileInView) and don't affect LCP, so they keep the
+// full fade treatment.
+export const heroItem: Variants = {
+  hidden: { opacity: 1, y: 16 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+export const heroStagger: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.04,
+    },
+  },
+};

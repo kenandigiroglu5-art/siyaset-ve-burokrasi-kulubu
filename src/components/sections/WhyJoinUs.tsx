@@ -1,30 +1,31 @@
 "use client";
 import { motion } from "framer-motion";
-import { Network, Briefcase, Globe, Crown, BookOpen, Award } from "lucide-react";
+import { Network, Briefcase, Globe, BookOpen, Heart } from "lucide-react";
 import SectionHeader from "@/components/common/SectionHeader";
 import { whyJoinItems } from "@/lib/data";
 import { staggerContainer, fadeInUp, viewportConfig } from "@/lib/animations";
 import Link from "next/link";
+import { useLocale } from "@/lib/i18n/LocaleProvider";
 
 const iconMap: Record<string, React.ElementType> = {
   Network,
   Briefcase,
   Globe,
-  Crown,
   BookOpen,
-  Award,
+  Heart,
 };
 
 export default function WhyJoinUs() {
+  const { t } = useLocale();
   return (
-    <section id="why-join" className="section-padding relative overflow-hidden" style={{ background: "#06101f" }}>
+    <section id="why-join" className="section-padding relative overflow-hidden" style={{ background: "var(--color-bg-deep)" }}>
       <div className="absolute inset-0 bg-grid opacity-25 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 relative">
         <SectionHeader
-          eyebrow="Neden Biz?"
-          title="Kulübümüze Neden Katılmalısınız?"
-          subtitle="Her üyemize özel fırsatlar sunuyoruz. Kariyer, ağ, deneyim ve gelişim için doğru yerdesiniz."
+          eyebrow={t.whyJoin.eyebrow}
+          title={t.whyJoin.title}
+          subtitle={t.whyJoin.subtitle}
         />
 
         <motion.div
@@ -41,7 +42,7 @@ export default function WhyJoinUs() {
                 key={item.id}
                 variants={fadeInUp}
                 className="rounded-3xl p-7 card-shine glass-hover group relative overflow-hidden"
-                style={{ border: "1px solid rgba(255,255,255,0.07)" }}
+                style={{ border: "1px solid var(--border-1)" }}
               >
                 <div
                   className="absolute top-0 right-0 w-24 h-24 rounded-bl-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
@@ -53,8 +54,8 @@ export default function WhyJoinUs() {
                 >
                   <Icon size={20} style={{ color: i % 3 === 0 ? "#60a5fa" : i % 3 === 1 ? "#c9a84c" : "#93c5fd" }} />
                 </div>
-                <h3 className="text-base font-bold mb-2" style={{ color: "rgb(248,250,252)" }}>{item.title}</h3>
-                <p className="text-sm leading-relaxed" style={{ color: "rgb(138,155,184)" }}>{item.description}</p>
+                <h3 className="text-base font-bold mb-2" style={{ color: "var(--color-text-primary)" }}>{item.title}</h3>
+                <p className="text-sm leading-relaxed" style={{ color: "var(--color-text-muted)" }}>{item.description}</p>
               </motion.div>
             );
           })}
@@ -71,9 +72,9 @@ export default function WhyJoinUs() {
           <Link
             href="/contact"
             className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl text-sm font-semibold transition-all duration-300 hover:scale-105"
-            style={{ background: "linear-gradient(135deg, #c9a84c, #a07c2e)", color: "#08152e", boxShadow: "0 8px 32px rgba(201,168,76,0.3)" }}
+            style={{ background: "linear-gradient(135deg, #c9a84c, #a07c2e)", color: "var(--color-bg-base)", boxShadow: "0 8px 32px rgba(201,168,76,0.3)" }}
           >
-            Hemen Üye Ol
+            {t.whyJoin.cta}
           </Link>
         </motion.div>
       </div>

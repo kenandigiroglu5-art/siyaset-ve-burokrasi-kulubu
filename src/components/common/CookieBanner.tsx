@@ -2,8 +2,10 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Cookie, X } from "lucide-react";
+import { useLocale } from "@/lib/i18n/LocaleProvider";
 
 export default function CookieBanner() {
+  const { t } = useLocale();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -34,9 +36,8 @@ export default function CookieBanner() {
             <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: "rgba(201,168,76,0.15)" }}>
               <Cookie size={16} style={{ color: "#c9a84c" }} />
             </div>
-            <p className="text-sm flex-1" style={{ color: "rgb(138,155,184)" }}>
-              Deneyiminizi iyileştirmek için çerezler kullanıyoruz.{" "}
-              <a href="#" className="underline" style={{ color: "#c9a84c" }}>Gizlilik politikası</a>
+            <p className="text-sm flex-1" style={{ color: "var(--color-text-muted)" }}>
+              {t.cookie.text}
             </p>
             <div className="flex gap-2 flex-shrink-0">
               <button
@@ -44,9 +45,9 @@ export default function CookieBanner() {
                 className="px-4 py-2 rounded-lg text-sm font-medium transition-all"
                 style={{ background: "linear-gradient(135deg, #1a56db, #0a3d9e)", color: "white" }}
               >
-                Kabul Et
+                {t.cookie.accept}
               </button>
-              <button onClick={accept} className="p-2 rounded-lg" style={{ color: "rgb(138,155,184)" }}>
+              <button onClick={accept} aria-label={t.cookie.accept} className="p-2 rounded-lg" style={{ color: "var(--color-text-muted)" }}>
                 <X size={14} />
               </button>
             </div>

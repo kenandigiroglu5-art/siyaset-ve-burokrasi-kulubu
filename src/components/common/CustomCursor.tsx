@@ -10,7 +10,8 @@ export default function CustomCursor() {
 
   useEffect(() => {
     const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
-    if (isTouchDevice) return;
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (isTouchDevice || prefersReducedMotion) return;
 
     const move = (e: MouseEvent) => {
       pos.current = { x: e.clientX, y: e.clientY };
@@ -23,31 +24,41 @@ export default function CustomCursor() {
       ring.current.x += (pos.current.x - ring.current.x) * 0.12;
       ring.current.y += (pos.current.y - ring.current.y) * 0.12;
       if (ringRef.current) {
-        ringRef.current.style.transform = `translate(${ring.current.x - 16}px, ${ring.current.y - 16}px)`;
+        ringRef.current.style.transform = `translate(${ring.current.x - 16}px, ${ring.current.y - 16}px) scale(1)`;
       }
       raf.current = requestAnimationFrame(animate);
     };
 
-    const handleEnter = () => {
-      if (ringRef.current) ringRef.current.style.transform += " scale(1.8)";
-      ringRef.current && (ringRef.current.style.borderColor = "rgba(201,168,76,0.8)");
+    // Event delegation so hover state works for elements added after mount
+    // (mobile menu, search results, dynamically rendered cards, etc.).
+    const handleOver = (e: MouseEvent) => {
+      if (!(e.target instanceof Element)) return;
+      if (!e.target.closest("a, button")) return;
+      if (ringRef.current) {
+        ringRef.current.style.transform += " scale(1.8)";
+        ringRef.current.style.borderColor = "rgba(201,168,76,0.8)";
+      }
     };
 
-    const handleLeave = () => {
-      ringRef.current && (ringRef.current.style.borderColor = "rgba(26,86,219,0.6)");
+    const handleOut = (e: MouseEvent) => {
+      if (!(e.target instanceof Element)) return;
+      if (!e.target.closest("a, button")) return;
+      if (ringRef.current) {
+        ringRef.current.style.borderColor = "rgba(26,86,219,0.6)";
+      }
     };
 
     document.addEventListener("mousemove", move);
-    document.querySelectorAll("a, button").forEach(el => {
-      el.addEventListener("mouseenter", handleEnter);
-      el.addEventListener("mouseleave", handleLeave);
-    });
+    document.addEventListener("mouseover", handleOver);
+    document.addEventListener("mouseout", handleOut);
 
     raf.current = requestAnimationFrame(animate);
     document.body.style.cursor = "none";
 
     return () => {
       document.removeEventListener("mousemove", move);
+      document.removeEventListener("mouseover", handleOver);
+      document.removeEventListener("mouseout", handleOut);
       cancelAnimationFrame(raf.current);
       document.body.style.cursor = "";
     };

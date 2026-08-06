@@ -1,30 +1,38 @@
+"use client";
 import Link from "next/link";
-import { Mail, MapPin, ExternalLink } from "lucide-react";
-import { Instagram } from "@/components/common/SocialIcons";
-
-const footerLinks = {
-  Keşfet: [
-    { label: "Hakkımızda", href: "/about" },
-    { label: "Etkinlikler", href: "/events" },
-    { label: "Blog", href: "/blog" },
-    { label: "Yönetim Kurulu", href: "/team" },
-  ],
-  Kaynaklar: [
-    { label: "İletişim", href: "/contact" },
-    { label: "Kulübe Katıl", href: "/contact" },
-    { label: "Gizlilik Politikası", href: "#" },
-    { label: "Kullanım Koşulları", href: "#" },
-  ],
-};
+import { MapPin, ExternalLink, MessageCircle } from "lucide-react";
+import { Instagram, Linkedin } from "@/components/common/SocialIcons";
+import { SOURCES } from "@/lib/data";
+import { useLocale } from "@/lib/i18n/LocaleProvider";
 
 export default function Footer() {
+  const { t } = useLocale();
   const year = new Date().getFullYear();
+
+  const footerLinks = [
+    {
+      title: t.footer.explore,
+      links: [
+        { label: t.nav.about, href: "/about" },
+        { label: t.nav.events, href: "/events" },
+        { label: t.nav.announcements, href: "/announcements" },
+        { label: t.nav.team, href: "/team" },
+      ],
+    },
+    {
+      title: t.footer.resources,
+      links: [
+        { label: t.nav.contact, href: "/contact" },
+        { label: t.nav.joinUs, href: SOURCES.whatsapp },
+      ],
+    },
+  ];
 
   return (
     <footer
       className="relative border-t"
       style={{
-        borderColor: "rgba(255,255,255,0.06)",
+        borderColor: "var(--surface-5)",
         background: "linear-gradient(180deg, rgba(8,21,46,0) 0%, rgba(5,12,28,1) 100%)",
       }}
     >
@@ -54,74 +62,95 @@ export default function Footer() {
                     WebkitTextFillColor: "transparent",
                   }}
                 >
-                  SBK
+                  SBT
                 </span>
               </div>
               <div>
-                <p className="text-[10px] font-medium tracking-[0.2em] uppercase" style={{ color: "rgb(138,155,184)" }}>
+                <p className="text-[10px] font-medium tracking-[0.2em] uppercase" style={{ color: "var(--color-text-muted)" }}>
                   İstanbul Medeniyet Üniversitesi
                 </p>
-                <p className="text-base font-semibold" style={{ color: "rgb(248,250,252)" }}>
-                  Siyaset ve Bürokrasi Kulübü
+                <p className="text-base font-semibold" style={{ color: "var(--color-text-primary)" }}>
+                  Siyaset ve Bürokrasi Topluluğu
                 </p>
               </div>
             </div>
-            <p className="text-sm leading-relaxed mb-6 max-w-xs" style={{ color: "rgb(138,155,184)" }}>
-              Geleceğin diplomatlarını, siyasetçilerini ve kamu yöneticilerini yetiştiren öğrenci topluluğu.
+            <p className="text-sm leading-relaxed mb-6 max-w-xs" style={{ color: "var(--color-text-muted)" }}>
+              {t.footer.tagline}
             </p>
 
             {/* Social */}
             <div className="flex gap-3">
               <a
-                href="https://www.instagram.com/siyasetveburokrasi_imu/"
+                href={SOURCES.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110"
                 style={{
-                  background: "rgba(255,255,255,0.06)",
-                  border: "1px solid rgba(255,255,255,0.08)",
-                  color: "rgb(138,155,184)",
+                  background: "var(--surface-5)",
+                  border: "1px solid var(--border-2)",
+                  color: "var(--color-text-muted)",
                 }}
                 aria-label="Instagram"
               >
                 <Instagram size={15} />
               </a>
               <a
-                href="mailto:siyasetburokrasi@imu.edu.tr"
+                href={SOURCES.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110"
                 style={{
-                  background: "rgba(255,255,255,0.06)",
-                  border: "1px solid rgba(255,255,255,0.08)",
-                  color: "rgb(138,155,184)",
+                  background: "var(--surface-5)",
+                  border: "1px solid var(--border-2)",
+                  color: "var(--color-text-muted)",
                 }}
-                aria-label="E-posta"
+                aria-label="LinkedIn"
               >
-                <Mail size={15} />
+                <Linkedin size={15} />
+              </a>
+              <a
+                href={SOURCES.whatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110"
+                style={{
+                  background: "var(--surface-5)",
+                  border: "1px solid var(--border-2)",
+                  color: "var(--color-text-muted)",
+                }}
+                aria-label="WhatsApp Grubu"
+              >
+                <MessageCircle size={15} />
               </a>
             </div>
           </div>
 
           {/* Links */}
-          {Object.entries(footerLinks).map(([title, links]) => (
-            <div key={title}>
+          {footerLinks.map((group) => (
+            <div key={group.title}>
               <h3
                 className="text-xs font-semibold tracking-[0.2em] uppercase mb-5"
                 style={{ color: "#c9a84c" }}
               >
-                {title}
+                {group.title}
               </h3>
               <ul className="flex flex-col gap-3">
-                {links.map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      className="text-sm animated-underline transition-colors duration-200 hover:text-white"
-                      style={{ color: "rgb(138,155,184)" }}
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
+                {group.links.map((link) => {
+                  const external = link.href.startsWith("http");
+                  return (
+                    <li key={link.label}>
+                      <Link
+                        href={link.href}
+                        target={external ? "_blank" : undefined}
+                        rel={external ? "noopener noreferrer" : undefined}
+                        className="text-sm animated-underline transition-colors duration-200 hover:text-white"
+                        style={{ color: "var(--color-text-muted)" }}
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           ))}
@@ -130,32 +159,34 @@ export default function Footer() {
         {/* Contact info */}
         <div
           className="flex flex-wrap gap-4 py-6 border-t border-b mb-6"
-          style={{ borderColor: "rgba(255,255,255,0.06)" }}
+          style={{ borderColor: "var(--surface-5)" }}
         >
           <a
-            href="https://maps.google.com/?q=Istanbul+Medeniyet+University"
+            href="https://maps.google.com/?q=Istanbul+Medeniyet+University+Kuzey+Kampus"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 text-sm transition-colors hover:text-white"
-            style={{ color: "rgb(138,155,184)" }}
+            style={{ color: "var(--color-text-muted)" }}
           >
             <MapPin size={14} style={{ color: "#c9a84c" }} />
-            İMÜ Kadıköy Kampüsü, İstanbul
+            İMÜ Kuzey Kampüs, İstanbul
           </a>
           <a
-            href="mailto:siyasetburokrasi@imu.edu.tr"
-            className="flex items-center gap-2 text-sm transition-colors hover:text-white"
-            style={{ color: "rgb(138,155,184)" }}
-          >
-            <Mail size={14} style={{ color: "#c9a84c" }} />
-            siyasetburokrasi@imu.edu.tr
-          </a>
-          <a
-            href="https://www.instagram.com/siyasetveburokrasi_imu/"
+            href={SOURCES.whatsapp}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 text-sm transition-colors hover:text-white"
-            style={{ color: "rgb(138,155,184)" }}
+            style={{ color: "var(--color-text-muted)" }}
+          >
+            <MessageCircle size={14} style={{ color: "#c9a84c" }} />
+            WhatsApp
+          </a>
+          <a
+            href={SOURCES.instagram}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-sm transition-colors hover:text-white"
+            style={{ color: "var(--color-text-muted)" }}
           >
             <ExternalLink size={14} style={{ color: "#c9a84c" }} />
             @siyasetveburokrasi_imu
@@ -164,10 +195,10 @@ export default function Footer() {
 
         {/* Bottom */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-xs" style={{ color: "rgb(138,155,184)" }}>
-            © {year} İMÜ Siyaset ve Bürokrasi Kulübü. Tüm hakları saklıdır.
+          <p className="text-xs" style={{ color: "var(--color-text-muted)" }}>
+            © {year} İMÜ Siyaset ve Bürokrasi Topluluğu. {t.footer.rights}
           </p>
-          <p className="text-xs" style={{ color: "rgb(138,155,184)" }}>
+          <p className="text-xs" style={{ color: "var(--color-text-muted)" }}>
             İstanbul Medeniyet Üniversitesi
           </p>
         </div>

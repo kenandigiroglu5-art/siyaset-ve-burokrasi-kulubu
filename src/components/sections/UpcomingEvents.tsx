@@ -4,24 +4,17 @@ import { Calendar, MapPin, Users, ArrowRight, Clock } from "lucide-react";
 import SectionHeader from "@/components/common/SectionHeader";
 import { upcomingEvents } from "@/lib/data";
 import { staggerContainer, fadeInUp, viewportConfig } from "@/lib/animations";
-import type { EventCategory } from "@/types";
+import { categoryStyle } from "@/lib/eventStyles";
 import Link from "next/link";
-
-const categoryColors: Record<EventCategory, { bg: string; color: string }> = {
-  Panel: { bg: "rgba(26,86,219,0.2)", color: "#60a5fa" },
-  Konferans: { bg: "rgba(201,168,76,0.2)", color: "#c9a84c" },
-  Workshop: { bg: "rgba(34,197,94,0.15)", color: "#4ade80" },
-  Seminer: { bg: "rgba(168,85,247,0.15)", color: "#c084fc" },
-  Söyleşi: { bg: "rgba(244,114,182,0.15)", color: "#f472b6" },
-  Sosyal: { bg: "rgba(96,165,250,0.15)", color: "#60a5fa" },
-};
+import { useLocale } from "@/lib/i18n/LocaleProvider";
 
 export default function UpcomingEvents() {
+  const { t } = useLocale();
   return (
     <section
       id="events"
       className="section-padding relative overflow-hidden"
-      style={{ background: "#08152e" }}
+      style={{ background: "var(--color-bg-base)" }}
     >
       <div
         className="absolute top-0 right-1/4 w-96 h-96 pointer-events-none"
@@ -33,11 +26,24 @@ export default function UpcomingEvents() {
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 relative">
         <SectionHeader
-          eyebrow="Yaklaşan Etkinlikler"
-          title="Sizi Bekliyoruz"
-          subtitle="Uzman konuşmacılar, interaktif atölyeler ve güçlü bir toplulukla dolu etkinlik takvimine katılın."
+          eyebrow={t.upcomingEvents.eyebrow}
+          title={t.upcomingEvents.title}
+          subtitle={t.upcomingEvents.subtitle}
         />
 
+        {upcomingEvents.length === 0 ? (
+          <div
+            className="rounded-3xl p-12 text-center mb-12"
+            style={{ background: "var(--surface-1)", border: "1px solid var(--border-1)" }}
+          >
+            <p className="text-base font-semibold mb-2" style={{ color: "var(--color-text-heading)" }}>
+              {t.upcomingEvents.emptyTitle}
+            </p>
+            <p className="text-sm" style={{ color: "var(--color-text-muted)" }}>
+              {t.upcomingEvents.emptyBody}
+            </p>
+          </div>
+        ) : (
         <motion.div
           variants={staggerContainer}
           initial="hidden"
@@ -46,13 +52,13 @@ export default function UpcomingEvents() {
           className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12"
         >
           {upcomingEvents.map((event, i) => {
-            const catStyle = categoryColors[event.category] ?? { bg: "rgba(26,86,219,0.2)", color: "#60a5fa" };
+            const catStyle = categoryStyle(event.category);
             return (
               <motion.div
                 key={event.id}
                 variants={fadeInUp}
                 className="rounded-3xl overflow-hidden card-shine group relative"
-                style={{ border: "1px solid rgba(255,255,255,0.07)" }}
+                style={{ border: "1px solid var(--border-1)" }}
               >
                 {/* Top gradient bar */}
                 <div
@@ -66,7 +72,7 @@ export default function UpcomingEvents() {
 
                 <div
                   className="p-7"
-                  style={{ background: "rgba(255,255,255,0.02)" }}
+                  style={{ background: "var(--surface-1)" }}
                 >
                   {/* Category + date row */}
                   <div className="flex items-center justify-between mb-4">
@@ -76,7 +82,7 @@ export default function UpcomingEvents() {
                     >
                       {event.category}
                     </span>
-                    <div className="flex items-center gap-1.5" style={{ color: "rgb(138,155,184)" }}>
+                    <div className="flex items-center gap-1.5" style={{ color: "var(--color-text-muted)" }}>
                       <Calendar size={12} />
                       <span className="text-xs">{event.date}</span>
                     </div>
@@ -84,29 +90,29 @@ export default function UpcomingEvents() {
 
                   <h3
                     className="text-lg font-bold mb-3 leading-tight group-hover:text-white transition-colors"
-                    style={{ color: "rgb(228,235,248)" }}
+                    style={{ color: "var(--color-text-heading)" }}
                   >
                     {event.title}
                   </h3>
 
-                  <p className="text-sm leading-relaxed mb-5" style={{ color: "rgb(138,155,184)" }}>
+                  <p className="text-sm leading-relaxed mb-5" style={{ color: "var(--color-text-muted)" }}>
                     {event.description}
                   </p>
 
                   {/* Meta */}
                   <div className="flex flex-wrap gap-4 mb-6">
-                    <div className="flex items-center gap-1.5" style={{ color: "rgb(138,155,184)" }}>
+                    <div className="flex items-center gap-1.5" style={{ color: "var(--color-text-muted)" }}>
                       <Clock size={12} />
                       <span className="text-xs">{event.time}</span>
                     </div>
-                    <div className="flex items-center gap-1.5" style={{ color: "rgb(138,155,184)" }}>
+                    <div className="flex items-center gap-1.5" style={{ color: "var(--color-text-muted)" }}>
                       <MapPin size={12} />
                       <span className="text-xs">{event.location}</span>
                     </div>
                     {event.attendees && (
-                      <div className="flex items-center gap-1.5" style={{ color: "rgb(138,155,184)" }}>
+                      <div className="flex items-center gap-1.5" style={{ color: "var(--color-text-muted)" }}>
                         <Users size={12} />
-                        <span className="text-xs">{event.attendees} katılımcı kapasitesi</span>
+                        <span className="text-xs">{event.attendees} {t.upcomingEvents.capacity}</span>
                       </div>
                     )}
                   </div>
@@ -114,13 +120,13 @@ export default function UpcomingEvents() {
                   {/* Speakers */}
                   {event.speakers && event.speakers.length > 0 && (
                     <div className="mb-6">
-                      <p className="text-xs font-medium mb-2" style={{ color: "rgb(138,155,184)" }}>Konuşmacılar</p>
+                      <p className="text-xs font-medium mb-2" style={{ color: "var(--color-text-muted)" }}>{t.upcomingEvents.speakers}</p>
                       <div className="flex flex-wrap gap-2">
                         {event.speakers.map((s) => (
                           <span
                             key={s}
                             className="px-2.5 py-1 rounded-lg text-xs"
-                            style={{ background: "rgba(255,255,255,0.05)", color: "rgb(210,220,240)" }}
+                            style={{ background: "var(--surface-4)", color: "var(--color-text-secondary)" }}
                           >
                             {s}
                           </span>
@@ -129,23 +135,33 @@ export default function UpcomingEvents() {
                     </div>
                   )}
 
-                  <a
-                    href={event.registrationUrl || "#"}
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-300 hover:scale-105 hover:gap-3"
-                    style={{
-                      background: "linear-gradient(135deg, #1a56db, #0a3d9e)",
-                      color: "white",
-                      boxShadow: "0 4px 16px rgba(26,86,219,0.3)",
-                    }}
-                  >
-                    Kayıt Ol
-                    <ArrowRight size={12} />
-                  </a>
+                  <div className="flex items-center gap-3">
+                    <a
+                      href={event.registrationUrl || "#"}
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-300 hover:scale-105 hover:gap-3"
+                      style={{
+                        background: "linear-gradient(135deg, #1a56db, #0a3d9e)",
+                        color: "white",
+                        boxShadow: "0 4px 16px rgba(26,86,219,0.3)",
+                      }}
+                    >
+                      {t.upcomingEvents.register}
+                      <ArrowRight size={12} />
+                    </a>
+                    <Link
+                      href={`/events/${event.slug}`}
+                      className="text-xs font-medium transition-colors"
+                      style={{ color: "var(--color-text-muted)" }}
+                    >
+                      {t.upcomingEvents.details}
+                    </Link>
+                  </div>
                 </div>
               </motion.div>
             );
           })}
         </motion.div>
+        )}
 
         <motion.div
           variants={fadeInUp}
@@ -158,12 +174,12 @@ export default function UpcomingEvents() {
             href="/events"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 hover:scale-105"
             style={{
-              border: "1px solid rgba(255,255,255,0.12)",
-              color: "rgb(248,250,252)",
-              background: "rgba(255,255,255,0.04)",
+              border: "1px solid var(--border-3)",
+              color: "var(--color-text-primary)",
+              background: "var(--surface-3)",
             }}
           >
-            Tüm Etkinlikleri Gör
+            {t.upcomingEvents.viewAll}
             <ArrowRight size={14} />
           </Link>
         </motion.div>

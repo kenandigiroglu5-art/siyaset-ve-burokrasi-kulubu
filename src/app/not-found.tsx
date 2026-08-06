@@ -2,12 +2,14 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Home, ArrowLeft } from "lucide-react";
+import { useLocale } from "@/lib/i18n/LocaleProvider";
 
 export default function NotFound() {
+  const { t } = useLocale();
   return (
     <div
       className="min-h-screen flex flex-col items-center justify-center text-center px-6"
-      style={{ background: "#08152e" }}
+      style={{ background: "var(--color-bg-base)" }}
     >
       {/* Glow */}
       <div
@@ -38,11 +40,11 @@ export default function NotFound() {
           404
         </motion.div>
 
-        <h1 className="text-2xl md:text-3xl font-bold mb-4" style={{ color: "rgb(248,250,252)" }}>
-          Sayfa Bulunamadı
+        <h1 className="text-2xl md:text-3xl font-bold mb-4" style={{ color: "var(--color-text-primary)" }}>
+          {t.notFound.title}
         </h1>
-        <p className="text-base mb-10 max-w-md mx-auto" style={{ color: "rgb(138,155,184)" }}>
-          Aradığınız sayfa taşınmış, silinmiş ya da hiç var olmamış olabilir.
+        <p className="text-base mb-10 max-w-md mx-auto" style={{ color: "var(--color-text-muted)" }}>
+          {t.notFound.body}
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -56,19 +58,19 @@ export default function NotFound() {
             }}
           >
             <Home size={15} />
-            Ana Sayfaya Dön
+            {t.notFound.home}
           </Link>
           <button
             onClick={() => window.history.back()}
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-medium transition-all hover:scale-105"
             style={{
-              border: "1px solid rgba(255,255,255,0.12)",
-              color: "rgb(248,250,252)",
-              background: "rgba(255,255,255,0.04)",
+              border: "1px solid var(--border-3)",
+              color: "var(--color-text-primary)",
+              background: "var(--surface-3)",
             }}
           >
             <ArrowLeft size={15} />
-            Geri Dön
+            {t.notFound.back}
           </button>
         </div>
       </motion.div>

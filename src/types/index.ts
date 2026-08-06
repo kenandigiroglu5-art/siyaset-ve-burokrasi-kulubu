@@ -6,9 +6,10 @@ export interface NavItem {
 
 export interface Event {
   id: string;
+  slug: string;
   title: string;
   date: string;
-  time: string;
+  time?: string;
   location: string;
   category: EventCategory;
   description: string;
@@ -17,6 +18,9 @@ export interface Event {
   isPast?: boolean;
   speakers?: string[];
   attendees?: number;
+  /** Doğrulama için kaynak (Instagram/LinkedIn) bağlantısı */
+  sourceUrl?: string;
+  sourceLabel?: string;
 }
 
 export type EventCategory =
@@ -29,45 +33,34 @@ export type EventCategory =
 
 export interface TeamMember {
   id: string;
-  name: string;
   role: string;
-  department: string;
-  year: string;
-  image: string;
-  bio: string;
-  linkedin?: string;
-  instagram?: string;
-  email?: string;
+  /** Doğrulanmış isim yoksa boş bırakılır */
+  name?: string;
+  sourceLabel?: string;
 }
 
-export interface BlogPost {
+export interface Announcement {
   id: string;
   title: string;
-  excerpt: string;
-  content?: string;
-  author: string;
-  authorImage: string;
   date: string;
-  readTime: string;
-  category: BlogCategory;
-  image: string;
-  slug: string;
-  tags: string[];
+  excerpt: string;
+  eventSlug?: string;
+  sourceUrl?: string;
+  sourceLabel?: string;
 }
 
-export type BlogCategory =
-  | "Diplomasi"
-  | "Siyaset"
-  | "Kamu Yönetimi"
-  | "Uluslararası İlişkiler"
-  | "Analiz";
+export interface InstagramHighlight {
+  id: string;
+  topic: string;
+  category: string;
+}
 
 export interface Statistic {
   id: string;
-  value: number;
-  suffix: string;
   label: string;
   icon: string;
+  value?: number;
+  suffix?: string;
 }
 
 export interface Partner {
@@ -97,11 +90,3 @@ export interface WhyJoinItem {
   description: string;
 }
 
-export interface InstagramPost {
-  id: string;
-  image: string;
-  likes: number;
-  comments: number;
-  caption: string;
-  url: string;
-}

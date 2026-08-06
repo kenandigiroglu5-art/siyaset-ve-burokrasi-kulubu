@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# İMÜ Siyaset ve Bürokrasi Kulübü — Web Sitesi
 
-## Getting Started
+İstanbul Medeniyet Üniversitesi Siyaset ve Bürokrasi Kulübü'nün tanıtım web sitesi. [Next.js](https://nextjs.org) App Router üzerine kurulmuştur.
 
-First, run the development server:
+## Teknoloji Yığını
+
+- **Next.js 16** (App Router, Turbopack) — bkz. `node_modules/next/dist/docs/` bu sürüme özgü API farkları için
+- **React 19** / **TypeScript**
+- **Tailwind CSS v4**
+- **Framer Motion** — sayfa/etkileşim animasyonları
+- **lucide-react** — ikon seti
+
+## Geliştirme
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Tarayıcıda [http://localhost:3000](http://localhost:3000) adresini açın.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Komutlar
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Komut | Açıklama |
+|---|---|
+| `npm run dev` | Geliştirme sunucusunu başlatır |
+| `npm run build` | Prodüksiyon derlemesi oluşturur |
+| `npm run start` | Derlenmiş uygulamayı çalıştırır |
+| `npm run lint` | ESLint denetimi çalıştırır |
 
-## Learn More
+## Proje Yapısı
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+  app/                 Route'lar (Next.js App Router) — /, /about, /events, /team, /blog, /contact
+  components/
+    layout/            Navbar, Footer
+    sections/          Sayfa bölümleri (Hero, About, Statistics, Events, Team, Blog, Partners, Instagram, FAQ, Contact...)
+    common/             Paylaşılan küçük bileşenler (SectionHeader, ikonlar, sayaç, vb.)
+  hooks/               Paylaşılan React hook'ları
+  lib/
+    data.ts            Site içeriği (etkinlikler, ekip, istatistikler, SSS, vb.)
+    animations.ts      Framer Motion varyantları
+    utils.ts           Yardımcı fonksiyonlar
+  types/               Paylaşılan TypeScript tipleri
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## İçerik Politikası
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+`src/lib/data.ts` sitenin tüm içerik verisini barındırır. **Doğrulanmamış hiçbir bilgi** (gerçek kişi isimleri, kurum ortaklıkları, etkinlik detayları, istatistikler) bu dosyaya eklenmemelidir. Henüz doğrulanmamış/teyit edilmemiş alanlar boş bırakılmış ve ilgili bölümlerde kullanıcıya "Yakında açıklanacak", "Duyurulacak" veya "Güncelleniyor" gibi durum mesajları gösterilmektedir. Gerçek içerik (yönetim kurulu üyeleri, geçmiş/yaklaşan etkinlikler, kurumsal iş birlikleri, blog yazıları) elde edildiğinde `src/lib/data.ts` güncellenmeli ve ilgili bölüm bileşenleri (`src/components/sections/`) buna göre gözden geçirilmelidir.
 
-## Deploy on Vercel
+## Dağıtım
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Proje [Vercel](https://vercel.com) üzerinde barındırmaya uygundur. Dağıtım öncesi `src/app/layout.tsx` içindeki `metadataBase` ve `openGraph.url` alanlarının gerçek prodüksiyon domainiyle eşleştiğinden emin olun.

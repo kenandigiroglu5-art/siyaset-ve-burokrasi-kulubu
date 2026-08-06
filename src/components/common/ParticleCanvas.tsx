@@ -11,10 +11,15 @@ interface Particle {
   color: string;
 }
 
+const PARTICLE_COUNT = 50;
+const LINK_DISTANCE = 120;
+
 export default function ParticleCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -31,7 +36,7 @@ export default function ParticleCanvas() {
     resize();
     window.addEventListener("resize", resize);
 
-    for (let i = 0; i < 80; i++) {
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
       particles.push({
         x: Math.random() * window.innerWidth,
         y: Math.random() * window.innerHeight,
@@ -45,7 +50,8 @@ export default function ParticleCanvas() {
 
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach((p) => {
+
+      for (const p of particles) {
         p.x += p.vx;
         p.y += p.vy;
         if (p.x < 0) p.x = canvas.width;
@@ -57,30 +63,43 @@ export default function ParticleCanvas() {
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
         ctx.fillStyle = `${p.color}${p.opacity})`;
         ctx.fill();
-      });
+      }
 
-      // Draw connections
-      particles.forEach((a, i) => {
-        particles.slice(i + 1).forEach((b) => {
+      // Draw connections (single pass, no per-frame array allocation)
+      for (let i = 0; i < particles.length; i++) {
+        const a = particles[i];
+        for (let j = i + 1; j < particles.length; j++) {
+          const b = particles[j];
           const dist = Math.hypot(a.x - b.x, a.y - b.y);
-          if (dist < 120) {
+          if (dist < LINK_DISTANCE) {
             ctx.beginPath();
             ctx.moveTo(a.x, a.y);
             ctx.lineTo(b.x, b.y);
-            ctx.strokeStyle = `rgba(26,86,219,${0.06 * (1 - dist / 120)})`;
+            ctx.strokeStyle = `rgba(26,86,219,${0.06 * (1 - dist / LINK_DISTANCE)})`;
             ctx.lineWidth = 0.5;
             ctx.stroke();
           }
-        });
-      });
+        }
+      }
 
       animId = requestAnimationFrame(draw);
     };
+
+    const handleVisibility = () => {
+      if (document.hidden) {
+        cancelAnimationFrame(animId);
+      } else {
+        animId = requestAnimationFrame(draw);
+      }
+    };
+
     draw();
+    document.addEventListener("visibilitychange", handleVisibility);
 
     return () => {
       cancelAnimationFrame(animId);
       window.removeEventListener("resize", resize);
+      document.removeEventListener("visibilitychange", handleVisibility);
     };
   }, []);
 

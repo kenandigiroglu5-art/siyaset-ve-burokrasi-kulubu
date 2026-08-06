@@ -1,16 +1,27 @@
 "use client";
 import { motion } from "framer-motion";
-import { Linkedin, Instagram, Mail } from "@/components/common/SocialIcons";
 import SectionHeader from "@/components/common/SectionHeader";
 import { teamMembers } from "@/lib/data";
 import { staggerContainer, fadeInUp, viewportConfig } from "@/lib/animations";
+import { useLocale } from "@/lib/i18n/LocaleProvider";
+
+function initialsOf(text: string) {
+  return text
+    .split(" ")
+    .filter((w) => w.length > 0)
+    .map((w) => w[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+}
 
 export default function ManagementBoard() {
+  const { t } = useLocale();
   return (
     <section
       id="team"
       className="section-padding relative overflow-hidden"
-      style={{ background: "#08152e" }}
+      style={{ background: "var(--color-bg-base)" }}
     >
       <div
         className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] pointer-events-none"
@@ -23,9 +34,9 @@ export default function ManagementBoard() {
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 relative">
         <SectionHeader
-          eyebrow="Yönetim Kurulu"
-          title="Ekibimizle Tanışın"
-          subtitle="Kulübümüzü ileri taşıyan, kararlı ve deneyimli liderlik kadromuz."
+          eyebrow={t.team.eyebrow}
+          title={t.team.title}
+          subtitle={t.team.subtitle}
         />
 
         <motion.div
@@ -40,7 +51,7 @@ export default function ManagementBoard() {
               key={member.id}
               variants={fadeInUp}
               className="rounded-3xl p-6 text-center card-shine group relative overflow-hidden"
-              style={{ border: "1px solid rgba(255,255,255,0.07)" }}
+              style={{ border: "1px solid var(--border-1)" }}
             >
               {/* Background gradient on hover */}
               <div
@@ -65,7 +76,7 @@ export default function ManagementBoard() {
                         ? "rgba(96,165,250,0.3), rgba(96,165,250,0.1)"
                         : "rgba(168,85,247,0.3), rgba(168,85,247,0.1)"
                     })`,
-                    border: "1px solid rgba(255,255,255,0.08)",
+                    border: "1px solid var(--border-2)",
                   }}
                 >
                   <span
@@ -82,96 +93,43 @@ export default function ManagementBoard() {
                       WebkitTextFillColor: "transparent",
                     }}
                   >
-                    {member.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
+                    {initialsOf(member.name ?? member.role)}
                   </span>
                 </div>
-                {/* Online indicator */}
-                <div
-                  className="absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full border-2"
-                  style={{
-                    background: "#22c55e",
-                    borderColor: "#08152e",
-                  }}
-                />
               </div>
 
               {/* Info */}
-              <h3
-                className="text-sm font-bold mb-1"
-                style={{ color: "rgb(248,250,252)" }}
-              >
-                {member.name}
-              </h3>
-              <p
-                className="text-xs font-semibold mb-1"
-                style={{ color: "#c9a84c" }}
-              >
-                {member.role}
-              </p>
-              <p
-                className="text-[11px] mb-4"
-                style={{ color: "rgb(138,155,184)" }}
-              >
-                {member.department} · {member.year}
-              </p>
-
-              {/* Bio */}
-              <p
-                className="text-xs leading-relaxed mb-5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                style={{ color: "rgb(138,155,184)" }}
-              >
-                {member.bio.slice(0, 80)}...
-              </p>
-
-              {/* Social links */}
-              <div className="flex items-center justify-center gap-2">
-                {member.linkedin && (
-                  <a
-                    href={member.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-200 hover:scale-110"
-                    style={{
-                      background: "rgba(255,255,255,0.06)",
-                      color: "rgb(138,155,184)",
-                    }}
-                    aria-label={`${member.name} LinkedIn`}
-                  >
-                    <Linkedin size={13} />
-                  </a>
-                )}
-                {member.instagram && (
-                  <a
-                    href={member.instagram}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-200 hover:scale-110"
-                    style={{
-                      background: "rgba(255,255,255,0.06)",
-                      color: "rgb(138,155,184)",
-                    }}
-                    aria-label={`${member.name} Instagram`}
-                  >
-                    <Instagram size={13} />
-                  </a>
-                )}
-                {member.email && (
-                  <a
-                    href={`mailto:${member.email}`}
-                    className="w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-200 hover:scale-110"
-                    style={{
-                      background: "rgba(255,255,255,0.06)",
-                      color: "rgb(138,155,184)",
-                    }}
-                    aria-label={`${member.name} E-posta`}
-                  >
-                    <Mail size={13} />
-                  </a>
-                )}
-              </div>
+              {member.name ? (
+                <>
+                  <p className="text-sm font-bold mb-1" style={{ color: "var(--color-text-primary)" }}>
+                    {member.name}
+                  </p>
+                  <p className="text-xs font-semibold mb-3" style={{ color: "#c9a84c" }}>
+                    {member.role}
+                  </p>
+                  {member.sourceLabel && (
+                    <p className="text-[10px] uppercase tracking-wider" style={{ color: "var(--color-text-faintest)" }}>
+                      {t.team.source}: {member.sourceLabel}
+                    </p>
+                  )}
+                </>
+              ) : (
+                <>
+                  <p className="text-sm font-bold mb-3" style={{ color: "var(--color-text-primary)" }}>
+                    {member.role}
+                  </p>
+                  <p className="text-xs leading-relaxed" style={{ color: "var(--color-text-muted)" }}>
+                    {t.team.updating}
+                  </p>
+                </>
+              )}
             </motion.div>
           ))}
         </motion.div>
+
+        <p className="text-center text-xs mt-10" style={{ color: "var(--color-text-faint)" }}>
+          {t.team.footnote}
+        </p>
       </div>
     </section>
   );

@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -62,24 +63,14 @@ export default function Navbar() {
         <nav className="max-w-7xl mx-auto px-6 lg:px-8 h-[72px] flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div
-              className="w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-105"
-              style={{
-                background: "linear-gradient(135deg, rgba(26,86,219,0.4), rgba(201,168,76,0.3))",
-                border: "1px solid rgba(201,168,76,0.35)",
-              }}
-            >
-              <span
-                className="text-xs font-bold"
-                style={{
-                  background: "linear-gradient(135deg, #c9a84c, #f0d483)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                }}
-              >
-                SBT
-              </span>
-            </div>
+            <Image
+              src="/logo.png"
+              alt="İMÜ Siyaset ve Bürokrasi Topluluğu logosu"
+              width={36}
+              height={36}
+              priority
+              className="w-9 h-9 rounded-full flex-shrink-0 transition-all duration-300 group-hover:scale-105"
+            />
             <div className="hidden sm:block">
               <p className="text-[10px] font-medium tracking-[0.2em] uppercase" style={{ color: "var(--color-text-muted)" }}>
                 İMÜ

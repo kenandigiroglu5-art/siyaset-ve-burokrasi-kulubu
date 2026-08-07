@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import Link from "next/link";
 import { MapPin, ExternalLink, MessageCircle } from "lucide-react";
 import { Instagram, Linkedin } from "@/components/common/SocialIcons";
@@ -47,24 +48,13 @@ export default function Footer() {
           {/* Brand */}
           <div className="lg:col-span-2">
             <div className="flex items-center gap-3 mb-4">
-              <div
-                className="w-10 h-10 rounded-xl flex items-center justify-center"
-                style={{
-                  background: "linear-gradient(135deg, rgba(26,86,219,0.4), rgba(201,168,76,0.3))",
-                  border: "1px solid rgba(201,168,76,0.35)",
-                }}
-              >
-                <span
-                  className="text-sm font-bold"
-                  style={{
-                    background: "linear-gradient(135deg, #c9a84c, #f0d483)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                  }}
-                >
-                  SBT
-                </span>
-              </div>
+              <Image
+                src="/logo.png"
+                alt="İMÜ Siyaset ve Bürokrasi Topluluğu logosu"
+                width={40}
+                height={40}
+                className="w-10 h-10 rounded-full flex-shrink-0"
+              />
               <div>
                 <p className="text-[10px] font-medium tracking-[0.2em] uppercase" style={{ color: "var(--color-text-muted)" }}>
                   İstanbul Medeniyet Üniversitesi

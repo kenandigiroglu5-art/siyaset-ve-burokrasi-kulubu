@@ -21,6 +21,7 @@ export interface Dictionary {
   eventGallery: Record<"eyebrow" | "title" | "subtitle" | "empty" | "viewDetail", string>;
   eventDetail: Record<"back" | "upcoming" | "register" | "source" | "related", string>;
   team: Record<"eyebrow" | "title" | "subtitle" | "updating" | "source" | "footnote", string>;
+  committees: Record<"eyebrow" | "title" | "subtitle" | "headLabel", string>;
   whyJoin: Record<"eyebrow" | "title" | "subtitle" | "cta", string>;
   partners: Record<"eyebrow" | "title" | "subtitle" | "empty", string>;
   instagram: Record<"eyebrow" | "title" | "subtitle" | "viewOnInstagram" | "follow", string>;
@@ -117,10 +118,16 @@ export const dictionary: Record<Locale, Dictionary> = {
     team: {
       eyebrow: "Yönetim Kurulu",
       title: "Ekibimizle Tanışın",
-      subtitle: "Yalnızca doğrulanabilen yönetim kurulu bilgileri listelenmektedir.",
+      subtitle: "Topluluğumuzu yöneten yönetim kurulumuzla tanışın.",
       updating: "Bilgiler güncelleniyor",
       source: "Kaynak",
-      footnote: "Diğer yönetim kurulu pozisyonları doğrulandıkça bu bölüme eklenecektir.",
+      footnote: "Yönetim kurulumuza ve tüm komite üyelerimize emekleri için teşekkür ederiz.",
+    },
+    committees: {
+      eyebrow: "Komiteler",
+      title: "Komitelerimiz",
+      subtitle: "Farklı alanlarda çalışan komitelerimiz ve değerli üyeleri.",
+      headLabel: "Komite Başkanı",
     },
     whyJoin: {
       eyebrow: "Neden Biz?",
@@ -275,10 +282,16 @@ export const dictionary: Record<Locale, Dictionary> = {
     team: {
       eyebrow: "Board",
       title: "Meet Our Team",
-      subtitle: "Only verifiable board information is listed.",
+      subtitle: "Meet the board leading our community.",
       updating: "Information being updated",
       source: "Source",
-      footnote: "Other board positions will be added here as they are verified.",
+      footnote: "We thank our board and all committee members for their dedication.",
+    },
+    committees: {
+      eyebrow: "Committees",
+      title: "Our Committees",
+      subtitle: "Our committees working across different areas and their valued members.",
+      headLabel: "Committee Head",
     },
     whyJoin: {
       eyebrow: "Why Us?",

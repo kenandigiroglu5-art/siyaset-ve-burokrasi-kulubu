@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import ManagementBoard from "@/components/sections/ManagementBoard";
+import Committees from "@/components/sections/Committees";
 
 export const metadata: Metadata = {
   title: "Yönetim Kurulu",
-  description: "İMÜ Siyaset ve Bürokrasi Topluluğu yönetim kurulu üyeleri.",
+  description: "İMÜ Siyaset ve Bürokrasi Topluluğu yönetim kurulu ve komite üyeleri.",
 };
 
 export default function TeamPage() {
@@ -15,6 +16,7 @@ export default function TeamPage() {
         <p className="mt-4 text-base" style={{ color: "var(--color-text-muted)" }}>Topluluğumuzu ileri taşıyan liderlik kadrosu</p>
       </div>
       <ManagementBoard />
+      <Committees />
     </div>
   );
 }

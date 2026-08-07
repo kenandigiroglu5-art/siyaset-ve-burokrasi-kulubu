@@ -1,4 +1,4 @@
-import { pastEvents, upcomingEvents, announcements, teamMembers, faqs, SOURCES } from "@/lib/data";
+import { pastEvents, upcomingEvents, announcements, teamMembers, committees, faqs, SOURCES } from "@/lib/data";
 
 export interface SearchItem {
   label: string;
@@ -41,6 +41,16 @@ export function getSearchIndex(): SearchItem[] {
       category: "Yönetim Kurulu",
     }));
 
+  const committeeMembers: SearchItem[] = committees.flatMap((c) => [
+    { label: c.head, sublabel: `${c.name} · Komite Başkanı`, href: "/team", category: "Komite" },
+    ...c.members.map((m) => ({
+      label: m,
+      sublabel: c.name,
+      href: "/team",
+      category: "Komite",
+    })),
+  ]);
+
   const questions: SearchItem[] = faqs.map((f) => ({
     label: f.question,
     href: "/contact",
@@ -53,5 +63,5 @@ export function getSearchIndex(): SearchItem[] {
     { label: "WhatsApp Grubu", href: SOURCES.whatsapp, category: "Sosyal Medya", external: true },
   ];
 
-  return [...pages, ...events, ...news, ...people, ...questions, ...social];
+  return [...pages, ...events, ...news, ...people, ...committeeMembers, ...questions, ...social];
 }

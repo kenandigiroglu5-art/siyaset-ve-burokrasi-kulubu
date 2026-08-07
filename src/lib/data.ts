@@ -1,6 +1,7 @@
 import type {
   Event,
   TeamMember,
+  Committee,
   Statistic,
   Partner,
   FAQ,
@@ -196,14 +197,48 @@ export const pastEvents: Event[] = [
 // Henüz duyurulmuş, doğrulanabilir yaklaşan bir etkinlik yok.
 export const upcomingEvents: Event[] = [];
 
-// Yönetim kurulu: yalnızca doğrulanabilen tek üye listelenmiştir.
-// Diğer pozisyonlar/isimler doğrulanamadığından boş bırakılmıştır.
 export const teamMembers: TeamMember[] = [
   {
     id: "tm1",
+    role: "Başkan",
+    name: "Tamay Tuğra Polat",
+  },
+  {
+    id: "tm2",
     role: "Başkan Yardımcısı",
     name: "Serra Fatma Uğur",
-    sourceLabel: "LinkedIn",
+  },
+  {
+    id: "tm3",
+    role: "Genel Sekreter",
+    name: "Aybeniz Taş",
+  },
+];
+
+export const committees: Committee[] = [
+  {
+    id: "c1",
+    name: "Sosyal Medya Komitesi",
+    head: "Elif Tütüneken",
+    members: ["Sude Yıldız", "Elif Akyapı"],
+  },
+  {
+    id: "c2",
+    name: "İletişim Komitesi",
+    head: "Serranur Hatice Kaba",
+    members: ["Onat Yılmaz Yardımcı", "Hasan Çankaloğlu"],
+  },
+  {
+    id: "c3",
+    name: "Organizasyon Komitesi",
+    head: "Zehra Betül Şengül",
+    members: ["Zehra Yalnız", "Kenan Dığıroğlu", "Merve Gökçen Güden"],
+  },
+  {
+    id: "c4",
+    name: "Araştırma Komitesi",
+    head: "Neslihan Arslan",
+    members: ["Sümeyye Çığrıkçı", "Sebahattin Samed Alkaşi"],
   },
 ];
 
@@ -344,7 +379,7 @@ export const faqs: FAQ[] = [
     id: "faq5",
     question: "Yönetim kurulunda kimler var?",
     answer:
-      "Yönetim kurulu bilgileri doğrulandıkça bu sayfada ve Yönetim Kurulu bölümünde güncellenmektedir. Şu an yalnızca Başkan Yardımcısı Serra Fatma Uğur doğrulanabilmiştir.",
+      "Yönetim kurulumuz ve komitelerimizin tam listesine Yönetim Kurulu sayfamızdan ulaşabilirsiniz.",
   },
   {
     id: "faq8",

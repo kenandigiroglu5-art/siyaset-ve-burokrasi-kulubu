@@ -39,6 +39,13 @@ export interface TeamMember {
   sourceLabel?: string;
 }
 
+export interface Committee {
+  id: string;
+  name: string;
+  head: string;
+  members: string[];
+}
+
 export interface Announcement {
   id: string;
   title: string;

@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, ExternalLink, X, FileText, CalendarDays, Megaphone, UserRound, HelpCircle, Link2 } from "lucide-react";
+import { Search, ExternalLink, X, FileText, CalendarDays, Megaphone, UserRound, Users, HelpCircle, Link2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { getSearchIndex } from "@/lib/searchIndex";
 import { useLocale } from "@/lib/i18n/LocaleProvider";
@@ -11,6 +11,7 @@ const categoryIcons: Record<string, React.ElementType> = {
   Etkinlik: CalendarDays,
   Duyuru: Megaphone,
   "Yönetim Kurulu": UserRound,
+  Komite: Users,
   SSS: HelpCircle,
   "Sosyal Medya": Link2,
 };

@@ -8,6 +8,7 @@ import ScrollProgress from "@/components/common/ScrollProgress";
 import BackToTop from "@/components/common/BackToTop";
 import CommandMenu from "@/components/common/CommandMenu";
 import CookieBanner from "@/components/common/CookieBanner";
+import GoogleAnalytics from "@/components/common/GoogleAnalytics";
 import Script from "next/script";
 import ThemeProvider, { THEME_INIT_SCRIPT } from "@/components/common/ThemeProvider";
 import LocaleProvider, { LOCALE_INIT_SCRIPT } from "@/lib/i18n/LocaleProvider";
@@ -121,6 +122,7 @@ export default function RootLayout({
           strategy="beforeInteractive"
           dangerouslySetInnerHTML={{ __html: LOCALE_INIT_SCRIPT }}
         />
+        <GoogleAnalytics />
         <ThemeProvider>
           <LocaleProvider>
             <CustomCursor />

@@ -76,6 +76,11 @@ export const metadata: Metadata = {
     description: SITE_DESCRIPTION,
     images: ["/logo.png"],
   },
+  verification: {
+    other: {
+      "google-adsense-account": "ca-pub-6238768944122112",
+    },
+  },
   robots: {
     index: true,
     follow: true,

@@ -5,7 +5,7 @@ import { SITE_URL, SITE_NAME } from "@/lib/seo";
 
 const PAGE_URL = `${SITE_URL}/team`;
 const TITLE = "Yönetim Kurulu";
-const DESCRIPTION = "İMÜ Siyaset ve Bürokrasi Topluluğu yönetim kurulu ve komite üyeleri.";
+const DESCRIPTION = "İstanbul Medeniyet Üniversitesi Siyaset ve Bürokrasi Topluluğu yönetim kurulu ve komite üyeleri.";
 
 export const metadata: Metadata = {
   title: TITLE,

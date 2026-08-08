@@ -13,7 +13,7 @@ import Script from "next/script";
 import ThemeProvider, { THEME_INIT_SCRIPT } from "@/components/common/ThemeProvider";
 import LocaleProvider, { LOCALE_INIT_SCRIPT } from "@/lib/i18n/LocaleProvider";
 import { SOURCES } from "@/lib/data";
-import { SITE_URL, SITE_NAME } from "@/lib/seo";
+import { SITE_URL, SITE_NAME, SITE_NAME_FULL } from "@/lib/seo";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -28,7 +28,7 @@ const playfair = Playfair_Display({
 });
 
 const SITE_DESCRIPTION =
-  "İstanbul Medeniyet Üniversitesi (İMÜ) Siyaset ve Bürokrasi Topluluğu — siyasi partilerden bağımsız öğrenci kulübü. Etkinlikler, duyurular, yönetim kurulu ve topluluk faaliyetleri hakkında bilgi alın.";
+  "İstanbul Medeniyet Üniversitesi Siyaset ve Bürokrasi Topluluğu. Etkinlikler, duyurular, projeler ve topluluk faaliyetleri hakkında bilgi alın.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -42,10 +42,6 @@ export const metadata: Metadata = {
     "İMÜ Siyaset ve Bürokrasi Topluluğu",
     "İstanbul Medeniyet Üniversitesi Siyaset ve Bürokrasi Topluluğu",
     "Siyaset ve Bürokrasi Kulübü",
-    "İMÜ Siyaset ve Bürokrasi Kulübü",
-    "İstanbul Medeniyet Üniversitesi Siyaset ve Bürokrasi Kulübü",
-    "Bürokrasi Kulübü İMÜ",
-    "Siyaset kulübü İstanbul Medeniyet Üniversitesi",
     "İstanbul Medeniyet Üniversitesi öğrenci kulüpleri",
     "İMÜ öğrenci kulüpleri",
     "İstanbul Medeniyet Üniversitesi siyaset",
@@ -103,11 +99,7 @@ const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: SITE_NAME,
-  alternateName: [
-    "Siyaset ve Bürokrasi Topluluğu",
-    "İMÜ Siyaset ve Bürokrasi Kulübü",
-    "Siyaset ve Bürokrasi Kulübü",
-  ],
+  alternateName: [SITE_NAME_FULL, "Siyaset ve Bürokrasi Kulübü"],
   url: SITE_URL,
   logo: `${SITE_URL}/logo.png`,
   description: SITE_DESCRIPTION,

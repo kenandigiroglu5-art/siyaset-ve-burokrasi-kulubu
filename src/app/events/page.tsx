@@ -6,7 +6,7 @@ import { SITE_URL, SITE_NAME } from "@/lib/seo";
 const PAGE_URL = `${SITE_URL}/events`;
 const TITLE = "Etkinlikler";
 const DESCRIPTION =
-  "İMÜ Siyaset ve Bürokrasi Topluluğu yaklaşan ve geçmiş etkinlikleri — paneller, konferanslar, seminerler ve söyleşiler.";
+  "İstanbul Medeniyet Üniversitesi Siyaset ve Bürokrasi Topluluğu'nun yaklaşan ve geçmiş etkinlikleri — paneller, konferanslar, seminerler ve söyleşiler.";
 
 export const metadata: Metadata = {
   title: TITLE,

@@ -54,7 +54,7 @@ export const dictionary: Record<Locale, Dictionary> = {
     hero: {
       badgeUniversity: "İstanbul Medeniyet Üniversitesi",
       badgeTerm: "2025-2026 Dönemi",
-      titleLine1: "Siyaset ve",
+      titleLine1: "Siyaset ve ",
       titleLine2: "Bürokrasi Topluluğu",
       subtitle: "Siyasi partilerden bağımsız, vatanseverlerin buluşma noktası.",
       description:

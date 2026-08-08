@@ -7,7 +7,7 @@ import { SITE_URL, SITE_NAME } from "@/lib/seo";
 const PAGE_URL = `${SITE_URL}/contact`;
 const TITLE = "İletişim";
 const DESCRIPTION =
-  "İMÜ Siyaset ve Bürokrasi Topluluğu ile iletişime geçin — topluluğa katılım, etkinlikler ve işbirliği için.";
+  "İstanbul Medeniyet Üniversitesi Siyaset ve Bürokrasi Topluluğu ile iletişime geçin — topluluğa katılım, etkinlikler ve işbirliği için.";
 
 export const metadata: Metadata = {
   title: TITLE,

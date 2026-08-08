@@ -4,7 +4,7 @@ import { SITE_URL, SITE_NAME } from "@/lib/seo";
 
 const PAGE_URL = `${SITE_URL}/announcements`;
 const TITLE = "Duyurular";
-const DESCRIPTION = "İMÜ Siyaset ve Bürokrasi Topluluğu duyuruları — doğrulanmış etkinlik haberleri.";
+const DESCRIPTION = "İstanbul Medeniyet Üniversitesi Siyaset ve Bürokrasi Topluluğu duyuruları — doğrulanmış etkinlik haberleri.";
 
 export const metadata: Metadata = {
   title: TITLE,

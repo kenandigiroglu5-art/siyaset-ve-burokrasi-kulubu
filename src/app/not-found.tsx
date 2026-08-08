@@ -73,6 +73,18 @@ export default function NotFound() {
             {t.notFound.back}
           </button>
         </div>
+
+        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mt-8 text-sm">
+          <Link href="/about" className="animated-underline transition-colors hover:text-white" style={{ color: "var(--color-text-muted)" }}>
+            {t.nav.about}
+          </Link>
+          <Link href="/events" className="animated-underline transition-colors hover:text-white" style={{ color: "var(--color-text-muted)" }}>
+            {t.nav.events}
+          </Link>
+          <Link href="/contact" className="animated-underline transition-colors hover:text-white" style={{ color: "var(--color-text-muted)" }}>
+            {t.nav.contact}
+          </Link>
+        </div>
       </motion.div>
     </div>
   );

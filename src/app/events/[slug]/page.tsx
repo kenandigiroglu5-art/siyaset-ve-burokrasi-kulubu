@@ -5,9 +5,10 @@ import { ArrowLeft, Calendar, Clock, MapPin, Mic2, ExternalLink, ArrowUpRight } 
 import { pastEvents, upcomingEvents } from "@/lib/data";
 import { categoryStyle, categoryIcons } from "@/lib/eventStyles";
 import { parseTurkishDateToISO } from "@/lib/parseEventDate";
+import { SITE_URL, SITE_NAME } from "@/lib/seo";
 import type { Event } from "@/types";
 
-const BASE_URL = "https://siyaset-ve-burokrasi-kulubu.vercel.app";
+const BASE_URL = SITE_URL;
 const allEvents: Event[] = [...upcomingEvents, ...pastEvents];
 
 function findEvent(slug: string) {
@@ -70,7 +71,7 @@ export default async function EventDetailPage({
     },
     organizer: {
       "@type": "Organization",
-      name: "İMÜ Siyaset ve Bürokrasi Topluluğu",
+      name: SITE_NAME,
       url: BASE_URL,
     },
     ...(event.speakers &&
@@ -79,11 +80,25 @@ export default async function EventDetailPage({
       }),
   };
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Ana Sayfa", item: BASE_URL },
+      { "@type": "ListItem", position: 2, name: "Etkinlikler", item: `${BASE_URL}/events` },
+      { "@type": "ListItem", position: 3, name: event.title, item: `${BASE_URL}/events/${event.slug}` },
+    ],
+  };
+
   return (
     <div className="pt-[72px]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(eventJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       {/* Cover */}
       <div

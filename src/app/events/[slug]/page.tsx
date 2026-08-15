@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Calendar, Clock, MapPin, Mic2, ExternalLink, ArrowUpRight } from "lucide-react";
 import { pastEvents, upcomingEvents } from "@/lib/data";
@@ -103,10 +104,26 @@ export default async function EventDetailPage({
       {/* Cover */}
       <div
         className="relative overflow-hidden flex items-center justify-center h-64 md:h-80"
-        style={{ background: `linear-gradient(135deg, rgba(13,31,60,1) 0%, ${style.bg.replace("0.2", "0.35").replace("0.15", "0.3")} 150%)` }}
+        style={!event.image ? { background: `linear-gradient(135deg, rgba(13,31,60,1) 0%, ${style.bg.replace("0.2", "0.35").replace("0.15", "0.3")} 150%)` } : undefined}
       >
-        <div className="absolute inset-0 bg-grid opacity-40" />
-        <Icon size={72} style={{ color: style.color, opacity: 0.35 }} />
+        {event.image ? (
+          <>
+            <Image
+              src={event.image}
+              alt={event.title}
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover"
+            />
+            <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(8,21,46,0.1) 0%, rgba(8,21,46,0.5) 100%)" }} />
+          </>
+        ) : (
+          <>
+            <div className="absolute inset-0 bg-grid opacity-40" />
+            <Icon size={72} style={{ color: style.color, opacity: 0.35 }} />
+          </>
+        )}
       </div>
 
       <div className="max-w-3xl mx-auto px-6 lg:px-8 py-12">

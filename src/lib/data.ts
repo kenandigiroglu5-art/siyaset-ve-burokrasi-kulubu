@@ -74,6 +74,20 @@ export const pastEvents: Event[] = [
     sourceLabel: "Instagram",
   },
   {
+    id: "e2b",
+    slug: "8-mart-dunya-kadinlar-gunu",
+    title: "8 Mart Dünya Kadınlar Günü",
+    date: "8 Mart 2026",
+    location: "İstanbul Medeniyet Üniversitesi",
+    category: "Sosyal",
+    description:
+      "8 Mart Dünya Kadınlar Günü vesilesiyle, üniversitemizin farklı birimlerinde görev yapan kadın çalışanlarımızı ziyaret ederek kendilerine karanfil takdim ettik. Kadınların toplumsal, akademik ve çalışma hayatındaki değerli katkılarına dikkat çekmek ve bu anlamlı günü birlikte kutlamak amacıyla gerçekleştirdiğimiz etkinlikte güzel anılar biriktirdik.",
+    image: "/images/events/8-mart-dunya-kadinlar-gunu.jpeg",
+    isPast: true,
+    sourceUrl: SOURCES.instagram,
+    sourceLabel: "Instagram",
+  },
+  {
     id: "e3",
     slug: "ramazan-bilgi-yarismasi-2026",
     title: "Ramazan Konseptli Ödüllü Bilgi Yarışması",

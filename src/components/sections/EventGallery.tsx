@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { MapPin, Mic2, ArrowUpRight } from "lucide-react";
 import SectionHeader from "@/components/common/SectionHeader";
@@ -64,13 +65,28 @@ export default function EventGallery() {
                       transition: "border-color 0.3s ease",
                     }}
                   >
-                    {/* Generated cover */}
+                    {/* Cover */}
                     <div
                       className={`relative overflow-hidden flex items-center justify-center ${featured ? "h-56" : "h-40"}`}
-                      style={{ background: `linear-gradient(135deg, rgba(13,31,60,1) 0%, ${style.bg.replace("0.2", "0.35").replace("0.15", "0.3")} 150%)` }}
+                      style={!event.image ? { background: `linear-gradient(135deg, rgba(13,31,60,1) 0%, ${style.bg.replace("0.2", "0.35").replace("0.15", "0.3")} 150%)` } : undefined}
                     >
-                      <div className="absolute inset-0 bg-grid opacity-40" />
-                      <Icon size={featured ? 56 : 40} style={{ color: style.color, opacity: 0.35 }} />
+                      {event.image ? (
+                        <>
+                          <Image
+                            src={event.image}
+                            alt={event.title}
+                            fill
+                            sizes={featured ? "(max-width: 640px) 100vw, 66vw" : "(max-width: 640px) 100vw, 33vw"}
+                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                          />
+                          <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(8,21,46,0.05) 0%, rgba(8,21,46,0.55) 100%)" }} />
+                        </>
+                      ) : (
+                        <>
+                          <div className="absolute inset-0 bg-grid opacity-40" />
+                          <Icon size={featured ? 56 : 40} style={{ color: style.color, opacity: 0.35 }} />
+                        </>
+                      )}
 
                       <div className="absolute top-3 left-3">
                         <span

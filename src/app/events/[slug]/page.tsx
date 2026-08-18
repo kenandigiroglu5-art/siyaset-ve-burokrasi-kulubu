@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { ArrowLeft, Calendar, Clock, MapPin, Mic2, ExternalLink, ArrowUpRight } from "lucide-react";
+import { ArrowLeft, Calendar, Clock, MapPin, Mic2, ExternalLink, ArrowUpRight, Images } from "lucide-react";
 import { pastEvents, upcomingEvents } from "@/lib/data";
 import { categoryStyle, categoryIcons } from "@/lib/eventStyles";
 import { parseTurkishDateToISO } from "@/lib/parseEventDate";
 import { SITE_URL, SITE_NAME } from "@/lib/seo";
+import EventPhotoGallery from "@/components/common/EventPhotoGallery";
 import type { Event } from "@/types";
 
 const BASE_URL = SITE_URL;
@@ -195,6 +196,16 @@ export default async function EventDetailPage({
                 </span>
               ))}
             </div>
+          </div>
+        )}
+
+        {event.gallery && event.gallery.length > 0 && (
+          <div className="mb-12">
+            <h3 className="text-sm font-semibold mb-4 flex items-center gap-2" style={{ color: "var(--color-text-primary)" }}>
+              <Images size={14} style={{ color: "#c9a84c" }} />
+              Fotoğraf Galerisi
+            </h3>
+            <EventPhotoGallery images={event.gallery} title={event.title} />
           </div>
         )}
 

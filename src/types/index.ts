@@ -14,6 +14,8 @@ export interface Event {
   category: EventCategory;
   description: string;
   image: string;
+  /** Etkinlik detay sayfasındaki fotoğraf galerisi (opsiyonel) */
+  gallery?: string[];
   registrationUrl?: string;
   isPast?: boolean;
   speakers?: string[];

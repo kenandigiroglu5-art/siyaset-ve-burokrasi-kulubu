@@ -189,7 +189,11 @@ export const pastEvents: Event[] = [
     category: "Seminer",
     description:
       "Dijital kişisel marka, profesyonel imaj ve LinkedIn'de görünürlük üzerine seminer. Dış katılımcılara da açıktı.",
-    image: "",
+    image: "/images/events/aytac-mestci-semineri/1.jpeg",
+    gallery: [
+      "/images/events/aytac-mestci-semineri/1.jpeg",
+      "/images/events/aytac-mestci-semineri/2.jpeg",
+    ],
     isPast: true,
     speakers: ["Aytaç Mestçi (MarkeFront CEO'su)"],
     sourceUrl: SOURCES.linkedin,

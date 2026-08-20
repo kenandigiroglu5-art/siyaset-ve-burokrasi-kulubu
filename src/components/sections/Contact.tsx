@@ -1,21 +1,43 @@
 "use client";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { MapPin, Send, CheckCircle, MessageCircle } from "lucide-react";
+import { MapPin, Send, CheckCircle, MessageCircle, AlertCircle, Loader2 } from "lucide-react";
 import { Instagram, Linkedin } from "@/components/common/SocialIcons";
 import SectionHeader from "@/components/common/SectionHeader";
 import { fadeInLeft, fadeInRight, viewportConfig } from "@/lib/animations";
 import { SOURCES } from "@/lib/data";
 import { useLocale } from "@/lib/i18n/LocaleProvider";
 
+// Doğrulanmış kampüs adresi (medeniyet.edu.tr): Ünalan Mah. Ünalan Sok.
+// D-100 Karayolu Yanyol, 34700 Üsküdar/İstanbul. API anahtarı gerektirmeyen
+// adres tabanlı embed kullanılır; uydurma koordinat girilmemiştir.
+const MAP_QUERY = encodeURIComponent(
+  "İstanbul Medeniyet Üniversitesi Kuzey Kampüs, Ünalan Mahallesi, Ünalan Sokak, D-100 Karayolu Yanyol, 34700 Üsküdar/İstanbul"
+);
+const MAP_EMBED_SRC = `https://www.google.com/maps?q=${MAP_QUERY}&output=embed`;
+
+type Status = "idle" | "sending" | "sent" | "error";
+
 export default function Contact() {
   const { t } = useLocale();
-  const [sent, setSent] = useState(false);
-  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
+  const [status, setStatus] = useState<Status>("idle");
+  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "", company: "" });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSent(true);
+    if (status === "sending") return;
+    setStatus("sending");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error("send_failed");
+      setStatus("sent");
+    } catch {
+      setStatus("error");
+    }
   };
 
   return (
@@ -67,7 +89,7 @@ export default function Contact() {
                 icon: MapPin,
                 label: "Üniversite",
                 value: "İstanbul Medeniyet Üniversitesi, Kuzey Kampüs",
-                href: "https://maps.google.com/?q=Istanbul+Medeniyet+University+Kuzey+Kampus",
+                href: `https://maps.google.com/?q=${MAP_QUERY}`,
                 color: "#c9a84c",
                 bg: "rgba(201,168,76,0.12)",
               },
@@ -93,13 +115,13 @@ export default function Contact() {
             {/* Map embed */}
             <div className="rounded-2xl overflow-hidden flex-1 min-h-48" style={{ border: "1px solid var(--border-1)" }}>
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3011.3745168892!2d29.023!3d40.99!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cab9f6f4e4d8e7%3A0x6f0e7e6e6f0e7e6e!2sIstanbul%20Medeniyet%20University!5e0!3m2!1str!2str!4v1700000000000!5m2!1str!2str"
+                src={MAP_EMBED_SRC}
                 width="100%"
                 height="100%"
                 style={{ border: 0, minHeight: "200px", filter: "invert(90%) hue-rotate(180deg) brightness(0.8)" }}
                 allowFullScreen
                 loading="lazy"
-                title="İMÜ Harita"
+                title="İMÜ Kuzey Kampüs Haritası"
               />
             </div>
           </motion.div>
@@ -113,7 +135,7 @@ export default function Contact() {
             className="lg:col-span-3"
           >
             <div className="rounded-3xl p-8 h-full" style={{ background: "var(--surface-2)", border: "1px solid var(--border-1)" }}>
-              {sent ? (
+              {status === "sent" ? (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -124,13 +146,47 @@ export default function Contact() {
                   </div>
                   <h3 className="text-xl font-bold" style={{ color: "var(--color-text-primary)" }}>{t.contact.sentTitle}</h3>
                   <p className="text-sm" style={{ color: "var(--color-text-muted)" }}>{t.contact.sentBody}</p>
-                  <button onClick={() => setSent(false)} className="mt-4 px-6 py-2.5 rounded-xl text-sm font-medium" style={{ background: "var(--surface-5)", color: "var(--color-text-primary)" }}>
+                  <button
+                    onClick={() => {
+                      setForm({ name: "", email: "", subject: "", message: "", company: "" });
+                      setStatus("idle");
+                    }}
+                    className="mt-4 px-6 py-2.5 rounded-xl text-sm font-medium"
+                    style={{ background: "var(--surface-5)", color: "var(--color-text-primary)" }}
+                  >
                     {t.contact.newMessage}
                   </button>
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="flex flex-col gap-5">
                   <h3 className="text-xl font-bold mb-2" style={{ color: "var(--color-text-primary)" }}>{t.contact.formTitle}</h3>
+
+                  {/* Honeypot: botlar için görünür, ekran okuyucular ve gerçek kullanıcılar için gizli */}
+                  <input
+                    type="text"
+                    name="company"
+                    value={form.company}
+                    onChange={(e) => setForm({ ...form, company: e.target.value })}
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                    className="absolute opacity-0 pointer-events-none -z-10"
+                    style={{ left: "-9999px", width: "1px", height: "1px" }}
+                  />
+
+                  {status === "error" && (
+                    <div
+                      className="flex items-start gap-3 p-4 rounded-xl text-sm"
+                      style={{ background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.25)", color: "#f87171" }}
+                      role="alert"
+                    >
+                      <AlertCircle size={16} className="flex-shrink-0 mt-0.5" />
+                      <div>
+                        <p className="font-semibold">{t.contact.errorTitle}</p>
+                        <p className="mt-0.5" style={{ color: "var(--color-text-muted)" }}>{t.contact.errorBody}</p>
+                      </div>
+                    </div>
+                  )}
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
@@ -189,11 +245,21 @@ export default function Contact() {
 
                   <button
                     type="submit"
-                    className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl text-sm font-semibold transition-all duration-300 hover:scale-[1.02]"
+                    disabled={status === "sending"}
+                    className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl text-sm font-semibold transition-all duration-300 hover:scale-[1.02] disabled:opacity-60 disabled:hover:scale-100 disabled:cursor-not-allowed"
                     style={{ background: "linear-gradient(135deg, #1a56db, #0a3d9e)", color: "white", boxShadow: "0 8px 24px rgba(26,86,219,0.35)" }}
                   >
-                    <Send size={15} />
-                    {t.contact.send}
+                    {status === "sending" ? (
+                      <>
+                        <Loader2 size={15} className="animate-spin" />
+                        {t.contact.sending}
+                      </>
+                    ) : (
+                      <>
+                        <Send size={15} />
+                        {t.contact.send}
+                      </>
+                    )}
                   </button>
                 </form>
               )}

@@ -28,7 +28,7 @@ export interface Dictionary {
   announcements: Record<"eyebrow" | "title" | "subtitle" | "empty" | "viewDetail", string>;
   faq: Record<"eyebrow" | "title" | "subtitle", string>;
   contact: Record<
-    "eyebrow" | "title" | "subtitle" | "formTitle" | "name" | "namePlaceholder" | "email" | "emailPlaceholder" | "subject" | "subjectPlaceholder" | "message" | "messagePlaceholder" | "send" | "sentTitle" | "sentBody" | "newMessage",
+    "eyebrow" | "title" | "subtitle" | "formTitle" | "name" | "namePlaceholder" | "email" | "emailPlaceholder" | "subject" | "subjectPlaceholder" | "message" | "messagePlaceholder" | "send" | "sending" | "sentTitle" | "sentBody" | "newMessage" | "errorTitle" | "errorBody" | "tryAgain",
     string
   >;
   footer: Record<"tagline" | "explore" | "resources" | "rights", string>;
@@ -174,9 +174,13 @@ export const dictionary: Record<Locale, Dictionary> = {
       message: "Mesajınız",
       messagePlaceholder: "Mesajınızı buraya yazın...",
       send: "Mesajı Gönder",
+      sending: "Gönderiliyor...",
       sentTitle: "Mesajınız İletildi!",
       sentBody: "En kısa sürede size geri döneceğiz.",
       newMessage: "Yeni Mesaj",
+      errorTitle: "Mesaj Gönderilemedi",
+      errorBody: "Bir sorun oluştu. Lütfen tekrar deneyin ya da bizimle Instagram/WhatsApp üzerinden iletişime geçin.",
+      tryAgain: "Tekrar Dene",
     },
     footer: {
       tagline: "Siyasi partilerden bağımsız, vatanseverlerin buluşma noktası.",
@@ -338,9 +342,13 @@ export const dictionary: Record<Locale, Dictionary> = {
       message: "Message",
       messagePlaceholder: "Write your message here...",
       send: "Send Message",
+      sending: "Sending...",
       sentTitle: "Your Message Was Sent!",
       sentBody: "We'll get back to you as soon as possible.",
       newMessage: "New Message",
+      errorTitle: "Message Could Not Be Sent",
+      errorBody: "Something went wrong. Please try again or reach us via Instagram/WhatsApp.",
+      tryAgain: "Try Again",
     },
     footer: {
       tagline: "Independent of political parties — a meeting point for patriots.",

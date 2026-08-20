@@ -168,7 +168,12 @@ export const pastEvents: Event[] = [
     category: "Konferans",
     description:
       "Bölgesel güvenlik dengeleri ve Türkiye'nin rolü üzerine konferans.",
-    image: "",
+    image: "/images/events/esat-arslan-konferansi/1.jpeg",
+    gallery: [
+      "/images/events/esat-arslan-konferansi/1.jpeg",
+      "/images/events/esat-arslan-konferansi/2.jpeg",
+      "/images/events/esat-arslan-konferansi/3.jpeg",
+    ],
     isPast: true,
     speakers: ["Emekli Tuğgeneral Prof. Dr. Esat Arslan"],
     sourceUrl: SOURCES.linkedin,

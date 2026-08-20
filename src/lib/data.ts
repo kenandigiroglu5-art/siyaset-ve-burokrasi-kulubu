@@ -117,7 +117,15 @@ export const pastEvents: Event[] = [
     category: "Söyleşi",
     description:
       "Gençlerin parayı doğru yönetmesi üzerine, iki topluluğun ortak düzenlediği söyleşi.",
-    image: "",
+    image: "/images/events/islam-memis-soylesisi/2.jpeg",
+    gallery: [
+      "/images/events/islam-memis-soylesisi/1.jpeg",
+      "/images/events/islam-memis-soylesisi/2.jpeg",
+      "/images/events/islam-memis-soylesisi/3.jpeg",
+      "/images/events/islam-memis-soylesisi/4.jpeg",
+      "/images/events/islam-memis-soylesisi/5.jpeg",
+      "/images/events/islam-memis-soylesisi/6.jpeg",
+    ],
     isPast: true,
     speakers: ["İslam Memiş"],
     sourceUrl: SOURCES.instagram,

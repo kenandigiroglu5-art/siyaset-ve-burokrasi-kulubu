@@ -262,19 +262,19 @@ export const committees: Committee[] = [
     id: "c2",
     name: "İletişim Komitesi",
     head: "Serranur Hatice Kaba",
-    members: ["Onat Yılmaz Yardımcı", "Hasan Çankaloğlu"],
+    members: ["Onat Yılmaz Yardımcı", "Hasan Çankaloğlu", "Yasemin Doğan"],
   },
   {
     id: "c3",
     name: "Organizasyon Komitesi",
     head: "Zehra Betül Şengül",
-    members: ["Zehra Yalnız", "Kenan Dığıroğlu", "Merve Gökçen Güden"],
+    members: ["Zehra Yalnız", "Yunus Emre Erdoğdu", "Kenan Dığıroğlu", "Merve Gökçen Güden"],
   },
   {
     id: "c4",
     name: "Araştırma Komitesi",
     head: "Neslihan Arslan",
-    members: ["Sümeyye Çığrıkçı", "Sebahattin Samed Alkaşi"],
+    members: ["Sümeyye Çığrıkçı", "S. Samed Alkaşi", "Melisa Öz"],
   },
 ];
 

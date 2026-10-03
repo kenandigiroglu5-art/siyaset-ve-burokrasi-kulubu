@@ -24,7 +24,10 @@ export interface Dictionary {
   committees: Record<"eyebrow" | "title" | "subtitle" | "headLabel", string>;
   whyJoin: Record<"eyebrow" | "title" | "subtitle" | "cta", string>;
   partners: Record<"eyebrow" | "title" | "subtitle" | "empty", string>;
-  instagram: Record<"eyebrow" | "title" | "subtitle" | "viewOnInstagram" | "follow", string>;
+  instagram: Record<
+    "eyebrow" | "title" | "subtitle" | "viewOnInstagram" | "follow" | "fallbackTitle" | "fallbackBody" | "videoBadge" | "albumBadge",
+    string
+  >;
   announcements: Record<"eyebrow" | "title" | "subtitle" | "empty" | "viewDetail", string>;
   faq: Record<"eyebrow" | "title" | "subtitle", string>;
   contact: Record<
@@ -143,10 +146,14 @@ export const dictionary: Record<Locale, Dictionary> = {
     },
     instagram: {
       eyebrow: "Instagram",
-      title: "Bizi Takip Edin",
-      subtitle: "@siyasetveburokrasi_imu hesabımızdan en güncel etkinlik ve içeriklerimizi takip edin.",
+      title: "Instagram'dan Son Paylaşımlar",
+      subtitle: "Etkinliklerimizden ve topluluğumuzdan son gelişmeleri Instagram'da takip edin.",
       viewOnInstagram: "Instagram'da Gör",
-      follow: "Takip Et",
+      follow: "Instagram'da Bizi Takip Et",
+      fallbackTitle: "Gönderiler şu anda gösterilemiyor",
+      fallbackBody: "En güncel paylaşımlarımızı görmek için Instagram hesabımızı ziyaret edebilirsiniz.",
+      videoBadge: "Video gönderisi",
+      albumBadge: "Çoklu fotoğraf gönderisi",
     },
     announcements: {
       eyebrow: "Duyurular",
@@ -311,10 +318,14 @@ export const dictionary: Record<Locale, Dictionary> = {
     },
     instagram: {
       eyebrow: "Instagram",
-      title: "Follow Us",
-      subtitle: "Follow @siyasetveburokrasi_imu for our latest events and content.",
+      title: "Latest From Instagram",
+      subtitle: "Follow our latest events and community updates on Instagram.",
       viewOnInstagram: "View on Instagram",
-      follow: "Follow",
+      follow: "Follow Us on Instagram",
+      fallbackTitle: "Posts can't be shown right now",
+      fallbackBody: "Visit our Instagram account to see our latest updates.",
+      videoBadge: "Video post",
+      albumBadge: "Multi-photo post",
     },
     announcements: {
       eyebrow: "Announcements",

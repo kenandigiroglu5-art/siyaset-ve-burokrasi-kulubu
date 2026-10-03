@@ -58,10 +58,19 @@ export interface Announcement {
   sourceLabel?: string;
 }
 
-export interface InstagramHighlight {
+export type InstagramMediaType = "IMAGE" | "VIDEO" | "CAROUSEL_ALBUM";
+
+export interface InstagramPost {
   id: string;
-  topic: string;
-  category: string;
+  /** Instagram Graph API'den gelen gönderi metni (opsiyonel) */
+  caption?: string;
+  /** Gönderiye ait gerçek Instagram bağlantısı */
+  permalink: string;
+  /** ISO 8601 tarih string'i */
+  timestamp?: string;
+  mediaType: InstagramMediaType;
+  /** Karusel/video gönderiler için çözülmüş, gösterilecek tek görsel */
+  displayImageUrl: string;
 }
 
 export interface Statistic {

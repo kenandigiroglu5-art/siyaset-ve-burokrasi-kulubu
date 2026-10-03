@@ -9,7 +9,6 @@ import type {
   WhyJoinItem,
   NavItem,
   Announcement,
-  InstagramHighlight,
 } from "@/types";
 
 // Kaynaklar (doğrulama için):
@@ -375,17 +374,6 @@ export const announcements: Announcement[] = [
     sourceUrl: "https://www.instagram.com/p/DYWHa4roRTv/",
     sourceLabel: "Instagram",
   },
-];
-
-// Instagram hesabımızdaki güncel paylaşım başlıkları (beğeni/yorum sayıları
-// anlık değiştiği için sabit yazılmamıştır).
-export const instagramHighlights: InstagramHighlight[] = [
-  { id: "ig1", topic: "Münazaraya Giriş Eğitimi", category: "Etkinlik" },
-  { id: "ig2", topic: "Prep Fest'teyiz", category: "Tanıtım" },
-  { id: "ig3", topic: "Aytaç Mestçi Semineri", category: "Etkinlik" },
-  { id: "ig4", topic: "Esat Arslan Konferansı", category: "Etkinlik" },
-  { id: "ig5", topic: "Huzurevi Ziyaretimiz", category: "Sosyal Sorumluluk" },
-  { id: "ig6", topic: "Kano Ekip Etkinliği", category: "Sosyal" },
 ];
 
 export const faqs: FAQ[] = [

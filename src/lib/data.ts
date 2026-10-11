@@ -238,16 +238,19 @@ export const teamMembers: TeamMember[] = [
     id: "tm1",
     role: "Başkan",
     name: "Tamay Tuğra Polat",
+    photo: "/images/team/tamay-tugra-polat.jpg",
   },
   {
     id: "tm2",
     role: "Başkan Yardımcısı",
     name: "Serra Fatma Uğur",
+    photo: "/images/team/serra-fatma-ugur.jpg",
   },
   {
     id: "tm3",
     role: "Genel Sekreter",
     name: "Aybeniz Taş",
+    photo: "/images/team/aybeniz-tas.jpg",
   },
 ];
 
@@ -256,25 +259,45 @@ export const committees: Committee[] = [
     id: "c1",
     name: "Sosyal Medya Komitesi",
     head: "Elif Tütüneken",
-    members: ["Sude Yıldız", "Elif Akyapı"],
+    headPhoto: "/images/team/elif-tutuneken.jpg",
+    members: [
+      { name: "Sude Yıldız", photo: "/images/team/sude-yildiz.jpg" },
+      { name: "Elif Akyapı", photo: "/images/team/elif-akyapi.jpg" },
+    ],
   },
   {
     id: "c2",
     name: "İletişim Komitesi",
     head: "Serranur Hatice Kaba",
-    members: ["Onat Yılmaz Yardımcı", "Hasan Çankaloğlu", "Yasemin Doğan"],
+    headPhoto: "/images/team/serranur-hatice-kaba.jpg",
+    members: [
+      { name: "Onat Yılmaz Yardımcı", photo: "/images/team/onat-yilmaz-yardimci.jpg" },
+      { name: "Hasan Çankaloğlu", photo: "/images/team/hasan-cankaloglu.jpg" },
+      { name: "Yasemin Doğan", photo: "/images/team/yasemin-dogan.jpg" },
+    ],
   },
   {
     id: "c3",
     name: "Organizasyon Komitesi",
     head: "Zehra Betül Şengül",
-    members: ["Zehra Yalnız", "Yunus Emre Erdoğdu", "Kenan Dığıroğlu", "Merve Gökçen Güden"],
+    headPhoto: "/images/team/zehra-betul-sengul.jpg",
+    members: [
+      { name: "Zehra Yalnız", photo: "/images/team/zehra-yalniz.jpg" },
+      { name: "Yunus Emre Erdoğdu", photo: "/images/team/yunus-emre-erdogdu.jpg" },
+      { name: "Kenan Dığıroğlu", photo: "/images/team/kenan-digiroglu.jpg" },
+      { name: "Merve Gökçen Güden", photo: "/images/team/merve-gokcen-guden.jpg" },
+    ],
   },
   {
     id: "c4",
     name: "Araştırma Komitesi",
     head: "Neslihan Arslan",
-    members: ["Sümeyye Çığrıkçı", "S. Samed Alkaşi", "Melisa Öz"],
+    headPhoto: "/images/team/neslihan-arslan.jpg",
+    members: [
+      { name: "Sümeyye Çığrıkçı", photo: "/images/team/sumeyye-cigrikci.jpg" },
+      { name: "S. Samed Alkaşi", photo: "/images/team/s-samed-alkasi.jpg" },
+      { name: "Melisa Öz", photo: "/images/team/melisa-oz.jpg" },
+    ],
   },
 ];
 

@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { Crown, User } from "lucide-react";
 import SectionHeader from "@/components/common/SectionHeader";
@@ -43,12 +44,21 @@ export default function Committees() {
 
               <ul className="flex flex-col gap-3">
                 <li className="flex items-center gap-3">
-                  <div
-                    className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
-                    style={{ background: "rgba(201,168,76,0.15)", border: "1px solid rgba(201,168,76,0.3)" }}
-                  >
-                    <Crown size={14} style={{ color: "#c9a84c" }} />
-                  </div>
+                  {committee.headPhoto ? (
+                    <div
+                      className="relative w-8 h-8 rounded-xl overflow-hidden flex-shrink-0"
+                      style={{ border: "1px solid rgba(201,168,76,0.5)" }}
+                    >
+                      <Image src={committee.headPhoto} alt={committee.head} fill sizes="32px" className="object-cover" />
+                    </div>
+                  ) : (
+                    <div
+                      className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
+                      style={{ background: "rgba(201,168,76,0.15)", border: "1px solid rgba(201,168,76,0.3)" }}
+                    >
+                      <Crown size={14} style={{ color: "#c9a84c" }} />
+                    </div>
+                  )}
                   <div>
                     <p className="text-sm font-semibold" style={{ color: "var(--color-text-primary)" }}>
                       {committee.head}
@@ -60,15 +70,24 @@ export default function Committees() {
                 </li>
 
                 {committee.members.map((member) => (
-                  <li key={member} className="flex items-center gap-3">
-                    <div
-                      className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
-                      style={{ background: "var(--surface-5)", border: "1px solid var(--border-1)" }}
-                    >
-                      <User size={14} style={{ color: "var(--color-text-muted)" }} />
-                    </div>
+                  <li key={member.name} className="flex items-center gap-3">
+                    {member.photo ? (
+                      <div
+                        className="relative w-8 h-8 rounded-xl overflow-hidden flex-shrink-0"
+                        style={{ border: "1px solid var(--border-1)" }}
+                      >
+                        <Image src={member.photo} alt={member.name} fill sizes="32px" className="object-cover" />
+                      </div>
+                    ) : (
+                      <div
+                        className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
+                        style={{ background: "var(--surface-5)", border: "1px solid var(--border-1)" }}
+                      >
+                        <User size={14} style={{ color: "var(--color-text-muted)" }} />
+                      </div>
+                    )}
                     <p className="text-sm" style={{ color: "var(--color-text-secondary)" }}>
-                      {member}
+                      {member.name}
                     </p>
                   </li>
                 ))}

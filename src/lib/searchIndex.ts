@@ -44,7 +44,7 @@ export function getSearchIndex(): SearchItem[] {
   const committeeMembers: SearchItem[] = committees.flatMap((c) => [
     { label: c.head, sublabel: `${c.name} · Komite Başkanı`, href: "/team", category: "Komite" },
     ...c.members.map((m) => ({
-      label: m,
+      label: m.name,
       sublabel: c.name,
       href: "/team",
       category: "Komite",

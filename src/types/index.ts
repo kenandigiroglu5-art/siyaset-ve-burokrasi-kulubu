@@ -39,13 +39,20 @@ export interface TeamMember {
   /** Doğrulanmış isim yoksa boş bırakılır */
   name?: string;
   sourceLabel?: string;
+  photo?: string;
+}
+
+export interface CommitteeMember {
+  name: string;
+  photo?: string;
 }
 
 export interface Committee {
   id: string;
   name: string;
   head: string;
-  members: string[];
+  headPhoto?: string;
+  members: CommitteeMember[];
 }
 
 export interface Announcement {

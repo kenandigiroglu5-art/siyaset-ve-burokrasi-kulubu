@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import SectionHeader from "@/components/common/SectionHeader";
 import { teamMembers } from "@/lib/data";
@@ -64,38 +65,53 @@ export default function ManagementBoard() {
 
               {/* Avatar */}
               <div className="relative mx-auto mb-4 w-20 h-20">
-                <div
-                  className="w-20 h-20 rounded-2xl flex items-center justify-center text-2xl font-bold"
-                  style={{
-                    background: `linear-gradient(135deg, ${
-                      i % 4 === 0
-                        ? "rgba(26,86,219,0.4), rgba(26,86,219,0.1)"
-                        : i % 4 === 1
-                        ? "rgba(201,168,76,0.35), rgba(201,168,76,0.1)"
-                        : i % 4 === 2
-                        ? "rgba(96,165,250,0.3), rgba(96,165,250,0.1)"
-                        : "rgba(168,85,247,0.3), rgba(168,85,247,0.1)"
-                    })`,
-                    border: "1px solid var(--border-2)",
-                  }}
-                >
-                  <span
+                {member.photo ? (
+                  <div
+                    className="relative w-20 h-20 rounded-2xl overflow-hidden"
+                    style={{ border: "1px solid var(--border-2)" }}
+                  >
+                    <Image
+                      src={member.photo}
+                      alt={member.name ?? member.role}
+                      fill
+                      sizes="80px"
+                      className="object-cover"
+                    />
+                  </div>
+                ) : (
+                  <div
+                    className="w-20 h-20 rounded-2xl flex items-center justify-center text-2xl font-bold"
                     style={{
-                      background:
+                      background: `linear-gradient(135deg, ${
                         i % 4 === 0
-                          ? "linear-gradient(135deg, #60a5fa, #1a56db)"
+                          ? "rgba(26,86,219,0.4), rgba(26,86,219,0.1)"
                           : i % 4 === 1
-                          ? "linear-gradient(135deg, #c9a84c, #f0d483)"
+                          ? "rgba(201,168,76,0.35), rgba(201,168,76,0.1)"
                           : i % 4 === 2
-                          ? "linear-gradient(135deg, #93c5fd, #60a5fa)"
-                          : "linear-gradient(135deg, #c084fc, #a855f7)",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
+                          ? "rgba(96,165,250,0.3), rgba(96,165,250,0.1)"
+                          : "rgba(168,85,247,0.3), rgba(168,85,247,0.1)"
+                      })`,
+                      border: "1px solid var(--border-2)",
                     }}
                   >
-                    {initialsOf(member.name ?? member.role)}
-                  </span>
-                </div>
+                    <span
+                      style={{
+                        background:
+                          i % 4 === 0
+                            ? "linear-gradient(135deg, #60a5fa, #1a56db)"
+                            : i % 4 === 1
+                            ? "linear-gradient(135deg, #c9a84c, #f0d483)"
+                            : i % 4 === 2
+                            ? "linear-gradient(135deg, #93c5fd, #60a5fa)"
+                            : "linear-gradient(135deg, #c084fc, #a855f7)",
+                        WebkitBackgroundClip: "text",
+                        WebkitTextFillColor: "transparent",
+                      }}
+                    >
+                      {initialsOf(member.name ?? member.role)}
+                    </span>
+                  </div>
+                )}
               </div>
 
               {/* Info */}

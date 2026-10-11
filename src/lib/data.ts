@@ -230,8 +230,21 @@ export const pastEvents: Event[] = [
   },
 ];
 
-// Henüz duyurulmuş, doğrulanabilir yaklaşan bir etkinlik yok.
-export const upcomingEvents: Event[] = [];
+export const upcomingEvents: Event[] = [
+  {
+    id: "e11",
+    slug: "dogu-turkistan-kultur-farkindalik-standi",
+    title: "Doğu Türkistan Kültür ve Farkındalık Standı",
+    date: "20 Ekim 2026",
+    time: "10.00-16.00",
+    location: "Kuzey Kampüs, Merkez Yemekhane Önü",
+    category: "Sosyal",
+    description:
+      "Doğu Türkistan'ın tarihi, kültürü, gelenekleri ve Türk dünyasındaki yeri ile bölgede yaşanan insan hakları ihlalleri üzerine bir farkındalık standı düzenliyoruz. Standımızda Doğu Türkistan'a özel ikramlıklar da sunulacak.",
+    image: "/images/events/dogu-turkistan-farkindalik-standi.jpg",
+    isPast: false,
+  },
+];
 
 export const teamMembers: TeamMember[] = [
   {

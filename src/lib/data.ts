@@ -16,7 +16,7 @@ export const SOURCES = {
   instagram: "https://www.instagram.com/siyasetveburokrasi_imu/",
   linkedin:
     "https://www.linkedin.com/in/siyaset-ve-burokrasi-toplulu%C4%9Fu-6b46673a3/",
-  whatsapp: "https://chat.whatsapp.com/DsMedSnqoA9Hah9lrLA0iK?s=hd&p=i&mlu=4&amv=1",
+  whatsapp: "https://chat.whatsapp.com/DsMedSnqoA9Hah9lrLA0iK",
 };
 
 export const navItems: NavItem[] = [
